@@ -32,6 +32,9 @@ Plan style: flexible campground-based route, with highland options only when roa
 - Iceland travel safety: https://safetravel.is
 - Highland driving guidance: https://safetravel.is/driving/summer/highland-driving/
 - Weather forecast: https://en.vedur.is/
+- Icelandic Met Office volcano monitoring: https://en.vedur.is/volcanoes/
+- Main Icelandic volcanoes: https://en.vedur.is/volcanoes/about-volcanoes/
+- Reykjanes volcanic activity updates: https://www.government.is/topics/public-safety-and-security/volcanic-activity-in-reykjanes/
 - Camping rules: https://ust.is/english/visiting-iceland/travel-information/where-can-you-camp/
 - Friðheimar: https://fridheimar.is/
 - Restaurant Mika: https://mika.is/
@@ -109,6 +112,15 @@ Do not force both the Westfjords and ambitious highland driving if weather or ti
 - Road-condition or highland-adjacent options: Hrafnabjargafoss, Aldeyjarfoss, Háifoss, and any falls reached by rough interior roads.
 - Waterfall days can become wet, slow, and crowded. Carry rain gear, protect cameras/phones, respect closed paths, and avoid getting too close to cliff edges or glacial river channels.
 
+## Volcano Planning Notes
+
+- The interactive map has a dedicated volcanoes / lava fields layer.
+- Treat volcano stops as route-aware options, not a checklist.
+- Easy fits: Kerið on the Golden Circle, Eldhraun on the South Coast, Hverfjall/Hverfell and Krafla around Mývatn, Grábrók during the west/southwest return, and Saxhóll if the Snæfellsnes branch happens.
+- Condition-dependent or highland options: Lakagígar/Laki and Askja. Only consider these if roads are open, weather is stable, daylight and fuel margins are generous, and the camper rental terms allow the route.
+- Reykjanes/Fagradalsfjall eruption-area visits require current official access checks. Do not approach closed eruption zones, new lava, gas hazard areas, or emergency work zones.
+- Stay on marked trails around geothermal and volcanic ground. Thin crust, unstable lava, gas, steam vents, snow patches, and sudden weather can make an area unsafe even when it looks calm.
+
 ## Recommendations And Place Notes
 
 - Track recommendations from people directly on the interactive map when they apply to a specific planning point.
@@ -132,6 +144,7 @@ Possible stops:
 - Gunnuhver
 - Brimketill
 - Reykjanes lighthouse
+- Reykjanes/Fagradalsfjall eruption area only if official access is open and gas/weather conditions are safe
 - Blue Lagoon or Sky Lagoon, if desired
 
 Campground targets:
@@ -144,6 +157,7 @@ Route:
 - Þingvellir
 - Geysir
 - Gullfoss
+- Kerið crater if the day still feels unhurried
 - Optional Friðheimar lunch in Reykholt
 - Anniversary dinner in Selfoss or Reykholt
 
@@ -182,6 +196,7 @@ Notes:
 Route:
 - Fjaðrárgljúfur
 - Eldhraun/lava fields
+- Optional Lakagígar/Laki craters only as a serious road/weather/rental-permission flex
 - Skaftafell
 - Svartifoss hike, if weather and energy allow
 
@@ -234,6 +249,8 @@ Possible stops:
 - Hafragilsfoss viewpoint, if road side and time make sense
 - Námafjall/Hverir
 - Grjótagjá
+- Hverfjall/Hverfell crater
+- Krafla/Leirhnjúkur/Víti volcanic area
 - Dimmuborgir
 - Mývatn Nature Baths
 
@@ -250,6 +267,7 @@ Choose based on weather and mood:
 - Selfoss or Hafragilsfoss, if staying in the Jökulsárgljúfur area
 - Hrafnabjargafoss/Aldeyjarfoss only if road conditions and timing are easy
 - More Mývatn hiking and geothermal stops
+- Hverfjall/Hverfell or Krafla if wind, visibility, and trail conditions are good
 
 Campground targets:
 - Mývatn
@@ -269,7 +287,7 @@ Priority:
 - Avoid major driving unless weather makes a short repositioning clearly worthwhile.
 
 Base options:
-- Mývatn: Dimmuborgir, Hverfjall/Hverfell, Skútustaðagígar, Mývatn Nature Baths, late walk in the lava fields.
+- Mývatn: Dimmuborgir, Hverfjall/Hverfell, Krafla/Leirhnjúkur/Víti, Skútustaðagígar, Mývatn Nature Baths, late walk in the lava fields.
 - Húsavík: whale watching, GeoSea, harbor dinner, late-night coastal light.
 - Ásbyrgi: canyon walking, quiet campground time, Jökulsárgljúfur area if conditions are good.
 
@@ -366,6 +384,7 @@ Westfjords campground targets:
 
 Snæfellsnes version:
 - Snæfellsjökull National Park area
+- Saxhóll crater
 - Djúpalónssandur
 - Lóndrangar
 - Arnarstapi/Hellnar area
@@ -390,6 +409,7 @@ Snæfellsnes version:
 Possible stops:
 - Hraunfossar
 - Barnafoss
+- Grábrók crater
 - Deildartunguhver
 - Krauma
 - Borgarnes

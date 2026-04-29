@@ -177,6 +177,7 @@
       --highland: #7a4f24;
       --hotspring: #008c9e;
       --waterfall: #1877b9;
+      --volcano: #8a3b1f;
       --road: #455a64;
       --froad: #c47a2c;
       --safety: #b83232;
@@ -737,6 +738,7 @@
       highland: { label: "Highland options", color: "#7a4f24" },
       hotspring: { label: "Hot springs / pools", color: "#008c9e" },
       waterfall: { label: "Waterfalls", color: "#1877b9" },
+      volcano: { label: "Volcanoes / lava fields", color: "#8a3b1f" },
       road: { label: "Named roads", color: "#455a64" },
       froad: { label: "F-roads / highland roads", color: "#c47a2c" },
       safety: { label: "Safety / live checks", color: "#b83232" }
@@ -813,7 +815,18 @@
       { id: "WF12", name: "Hraunfossar / Barnafoss", category: "waterfall", day: "June 25/26", lat: 64.7010, lng: -20.9787, note: "Borgarfjörður waterfall pair that fits the return-to-southwest buffer well." },
       { id: "WF13", name: "Glymur", category: "waterfall", day: "June 26 final flex", lat: 64.3853, lng: -21.2519, note: "Tall waterfall hike in Hvalfjörður; only choose it if weather, river/trail conditions, and timing are comfortable." },
       { id: "WF14", name: "Brúarfoss", category: "waterfall", day: "June 14 or final flex", lat: 64.2644, lng: -20.5158, note: "Blue-water Golden Circle add-on; good if the anniversary day has spare time without feeling rushed." },
-      { id: "WF15", name: "Háifoss", category: "waterfall", day: "Highland-adjacent flex", lat: 64.2075, lng: -19.6866, note: "Dramatic highland-edge waterfall; road conditions and camper rental comfort decide whether it belongs." }
+      { id: "WF15", name: "Háifoss", category: "waterfall", day: "Highland-adjacent flex", lat: 64.2075, lng: -19.6866, note: "Dramatic highland-edge waterfall; road conditions and camper rental comfort decide whether it belongs." },
+      { id: "V1", name: "Reykjanes / Fagradalsfjall eruption area", category: "volcano", day: "June 13 or 26", lat: 63.8950, lng: -22.2700, note: "Only visit if official access is open. Check SafeTravel, Vedur/IMO, gas forecasts, and closures before treating this as a stop." },
+      { id: "V2", name: "Kerið crater", category: "volcano", day: "June 14", lat: 64.0413, lng: -20.8844, note: "Easy Golden Circle volcanic crater add-on near the anniversary route if the day still feels spacious." },
+      { id: "V3", name: "Eldhraun lava field", category: "volcano", day: "June 16", lat: 63.7420, lng: -18.1600, note: "Vast moss-covered lava field from the Laki eruption. Stay on marked paths and protect the fragile moss." },
+      { id: "V4", name: "Lakagígar / Laki craters", category: "volcano", day: "Highland-adjacent flex", lat: 64.0640, lng: -18.2360, note: "Major volcanic fissure and crater row reached by rough interior roads. Only consider if roads are open, weather is stable, and the camper rental permits it." },
+      { id: "V5", name: "Hverfjall / Hverfell", category: "volcano", day: "June 20-21", lat: 65.6020, lng: -16.8750, note: "Excellent Mývatn solstice crater walk with broad views; avoid exposed windy conditions." },
+      { id: "V6", name: "Krafla / Leirhnjúkur / Víti", category: "volcano", day: "June 20-21", lat: 65.7170, lng: -16.7540, note: "Active volcanic landscape near Mývatn with lava fields, geothermal ground, and crater views. Stay on marked trails." },
+      { id: "V7", name: "Askja", category: "volcano", day: "Highland stretch only", lat: 65.0330, lng: -16.7500, note: "Remote highland caldera. Treat as a guided or very condition-dependent stretch option, not a default camper day." },
+      { id: "V8", name: "Snæfellsjökull", category: "volcano", day: "June 25 if Snæfellsnes", lat: 64.8096, lng: -23.7731, note: "Glacier-capped volcano and national park centerpiece if the Snæfellsnes branch wins." },
+      { id: "V9", name: "Saxhóll crater", category: "volcano", day: "June 25 if Snæfellsnes", lat: 64.8511, lng: -23.9240, note: "Short stair climb to a crater viewpoint on Snæfellsnes; good low-commitment volcanic stop." },
+      { id: "V10", name: "Grábrók crater", category: "volcano", day: "June 25/26", lat: 64.7712, lng: -21.5365, note: "Easy crater walk near Bifröst/Borgarfjörður during the return-to-southwest buffer." },
+      { id: "V11", name: "Eldfell / Heimaey", category: "volcano", day: "South Coast ferry branch", lat: 63.4320, lng: -20.2470, note: "Westman Islands volcano from the 1973 eruption. Worthwhile only if ferry timing, weather, and trip pace make the branch easy." }
     ];
 
     const recommendations = {
@@ -1057,7 +1070,7 @@
 
     function markerIcon(point) {
       const color = categories[point.category].color;
-      const label = point.category === "hotspring" ? "♨" : point.category === "waterfall" ? "W" : point.id;
+      const label = point.category === "hotspring" ? "♨" : point.category === "waterfall" ? "W" : point.category === "volcano" ? "V" : point.id;
       return L.divIcon({
         className: "",
         html: `<div class="marker" style="background:${color}">${label}</div>`,
@@ -1159,7 +1172,18 @@
         WF12: "Hraunfossar",
         WF13: "Glymur",
         WF14: "Brúarfoss",
-        WF15: "Háifoss"
+        WF15: "Háifoss",
+        V1: "Fagradalsfjall",
+        V2: "Kerið",
+        V3: "Eldhraun",
+        V4: "Lakagígar",
+        V5: "Hverfjall",
+        V6: "Krafla",
+        V7: "Askja",
+        V8: "Snæfellsjökull",
+        V9: "Saxhóll",
+        V10: "Grábrók",
+        V11: "Eldfell"
       };
       return titles[point.id] || point.name.split("/")[0].trim();
     }
