@@ -1,0 +1,1565 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Iceland Camper Itinerary Map</title>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIINfQfQbcw3E62fQbRXrIBhFHCOWPOdypI="
+    crossorigin="">
+  <style>
+    .leaflet-pane,
+    .leaflet-tile,
+    .leaflet-marker-icon,
+    .leaflet-marker-shadow,
+    .leaflet-tile-container,
+    .leaflet-pane > svg,
+    .leaflet-pane > canvas,
+    .leaflet-zoom-box,
+    .leaflet-image-layer,
+    .leaflet-layer {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    .leaflet-container {
+      overflow: hidden;
+      touch-action: pan-x pan-y;
+      font: 12px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+    }
+
+    .leaflet-tile,
+    .leaflet-marker-icon,
+    .leaflet-marker-shadow {
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .leaflet-tile {
+      filter: inherit;
+      visibility: hidden;
+    }
+
+    .leaflet-tile-loaded {
+      visibility: inherit;
+    }
+
+    .leaflet-zoom-animated {
+      transform-origin: 0 0;
+    }
+
+    .leaflet-marker-icon,
+    .leaflet-marker-shadow {
+      display: block;
+    }
+
+    .leaflet-control {
+      position: relative;
+      z-index: 800;
+      pointer-events: auto;
+    }
+
+    .leaflet-top,
+    .leaflet-bottom {
+      position: absolute;
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    .leaflet-top {
+      top: 0;
+    }
+
+    .leaflet-right {
+      right: 0;
+    }
+
+    .leaflet-bottom {
+      bottom: 0;
+    }
+
+    .leaflet-left {
+      left: 0;
+    }
+
+    .leaflet-control-zoom {
+      border: 2px solid rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
+      background: #fff;
+      background-clip: padding-box;
+    }
+
+    .leaflet-control-zoom a {
+      display: block;
+      width: 30px;
+      height: 30px;
+      color: #111;
+      background: #fff;
+      line-height: 30px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .leaflet-control-zoom a + a {
+      border-top: 1px solid #ccc;
+    }
+
+    .leaflet-popup {
+      position: absolute;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .leaflet-popup-content-wrapper {
+      padding: 1px;
+      text-align: left;
+      border-radius: 8px;
+      background: white;
+      box-shadow: 0 3px 14px rgba(0, 0, 0, 0.28);
+    }
+
+    .leaflet-popup-tip-container {
+      position: absolute;
+      left: 50%;
+      margin-left: -20px;
+      overflow: hidden;
+      width: 40px;
+      height: 20px;
+    }
+
+    .leaflet-popup-tip {
+      width: 17px;
+      height: 17px;
+      padding: 1px;
+      margin: -10px auto 0;
+      background: white;
+      transform: rotate(45deg);
+      box-shadow: 0 3px 14px rgba(0, 0, 0, 0.2);
+    }
+
+    .leaflet-popup-close-button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 4px 6px 0 0;
+      color: #757575;
+      text-decoration: none;
+      font: 16px/14px Tahoma, Verdana, sans-serif;
+    }
+
+    .leaflet-tooltip {
+      position: absolute;
+      padding: 6px;
+      border-radius: 3px;
+      background: white;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+      color: #222;
+      white-space: nowrap;
+    }
+
+    :root {
+      color-scheme: light;
+      --bg: #f5f1e8;
+      --panel: #ffffff;
+      --ink: #1f2a2d;
+      --muted: #647171;
+      --line: #d9d2c4;
+      --core: #136f63;
+      --camp: #2d6cdf;
+      --food: #b2552d;
+      --solstice: #8f5aa3;
+      --branch: #5f7f2e;
+      --highland: #7a4f24;
+      --hotspring: #008c9e;
+      --waterfall: #1877b9;
+      --road: #455a64;
+      --froad: #c47a2c;
+      --safety: #b83232;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow: hidden;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(320px, 390px) minmax(0, 1fr);
+      grid-template-areas: "sidebar map";
+      min-height: 100vh;
+    }
+
+    aside {
+      grid-area: sidebar;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      height: 100vh;
+      padding: 22px;
+      overflow: auto;
+      border-right: 1px solid var(--line);
+      background: var(--panel);
+      box-shadow: 0 10px 30px rgba(45, 40, 30, 0.12);
+      z-index: 500;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: 28px;
+      line-height: 1.08;
+      font-weight: 760;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 15px;
+      line-height: 1.2;
+      font-weight: 760;
+      text-transform: uppercase;
+      color: #394545;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .panel {
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+
+    .filters {
+      display: grid;
+      gap: 9px;
+    }
+
+    .filter-actions {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .filter-action {
+      min-height: 30px;
+      padding: 5px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfaf7;
+      color: #273335;
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .filter-action:hover,
+    .filter-action:focus-visible {
+      border-color: #9fb7af;
+      outline: none;
+      background: #f4f7f5;
+    }
+
+    .filter {
+      display: grid;
+      grid-template-columns: 20px 12px minmax(0, 1fr);
+      align-items: center;
+      gap: 8px;
+      min-height: 30px;
+      font-size: 14px;
+      color: #273335;
+    }
+
+    .filter input {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--core);
+    }
+
+    .swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--core);
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .list {
+      display: grid;
+      gap: 8px;
+      max-height: 43vh;
+      overflow: auto;
+      padding-right: 3px;
+    }
+
+    .item {
+      width: 100%;
+      padding: 10px 11px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfaf7;
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .item:hover,
+    .item:focus-visible,
+    .item.selected {
+      border-color: #9fb7af;
+      outline: none;
+      background: #f4f7f5;
+    }
+
+    .item.selected {
+      border-color: var(--core);
+      box-shadow: 0 0 0 3px rgba(19, 111, 99, 0.16);
+    }
+
+    .item-title {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 4px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .item-name {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .info-button {
+      display: inline-grid;
+      place-items: center;
+      width: 24px;
+      height: 24px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: #ffffff;
+      color: #334143;
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .info-button:hover,
+    .info-button:focus-visible {
+      border-color: #9fb7af;
+      outline: none;
+      background: #eef5f2;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 6px;
+      border-radius: 999px;
+      color: white;
+      font-size: 11px;
+      font-weight: 760;
+      background: var(--core);
+    }
+
+    .item-meta {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .item-quick-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .item-quick-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 4px 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      color: #223033;
+      font-size: 12px;
+      font-weight: 760;
+      text-decoration: none;
+    }
+
+    .item-quick-link:hover,
+    .item-quick-link:focus-visible {
+      border-color: #9fb7af;
+      outline: none;
+      background: #eef5f2;
+    }
+
+    .map-wrap {
+      grid-area: map;
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    #map {
+      position: absolute;
+      inset: 0;
+      background: #d8e3df;
+    }
+
+    .leaflet-popup-content {
+      margin: 13px 14px;
+      min-width: 210px;
+    }
+
+    .popup-title {
+      margin: 0 0 4px;
+      font-size: 16px;
+      line-height: 1.2;
+      font-weight: 760;
+      color: #1d2829;
+    }
+
+    .popup-meta {
+      margin: 0 0 8px;
+      color: #657271;
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .popup-note {
+      margin: 0;
+      color: #303b3d;
+      font-size: 13px;
+      line-height: 1.42;
+    }
+
+    .legend {
+      position: absolute;
+      right: 16px;
+      bottom: 18px;
+      z-index: 450;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      max-width: min(620px, calc(100vw - 440px));
+      padding: 10px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+      font-size: 12px;
+      color: #354143;
+    }
+
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--core);
+    }
+
+    .marker {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border: 2px solid #ffffff;
+      border-radius: 50%;
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 800;
+      box-shadow: 0 5px 14px rgba(0, 0, 0, 0.26);
+    }
+
+    .road-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 36px;
+      height: 22px;
+      padding: 0 7px;
+      border: 2px solid #ffffff;
+      border-radius: 999px;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 820;
+      line-height: 1;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.28);
+    }
+
+    .detail-panel {
+      position: fixed;
+      right: 18px;
+      top: 18px;
+      z-index: 700;
+      display: none;
+      width: min(380px, calc(100% - 36px));
+      max-height: calc(100% - 36px);
+      overflow: auto;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.97);
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.24);
+    }
+
+    .detail-panel.open {
+      display: block;
+    }
+
+    .detail-visual {
+      position: relative;
+      min-height: 170px;
+      background: linear-gradient(135deg, #176f63, #d8e3df);
+      color: #ffffff;
+    }
+
+    .detail-visual img {
+      display: block;
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+    }
+
+    .detail-visual.fallback {
+      display: grid;
+      align-content: end;
+      padding: 18px;
+    }
+
+    .detail-visual-title {
+      margin: 0;
+      max-width: 92%;
+      font-size: 28px;
+      line-height: 1.04;
+      font-weight: 820;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.28);
+    }
+
+    .detail-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.92);
+      color: #1d2829;
+      cursor: pointer;
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .detail-body {
+      display: grid;
+      gap: 12px;
+      padding: 16px;
+    }
+
+    .detail-body h3 {
+      margin: 0;
+      font-size: 21px;
+      line-height: 1.15;
+    }
+
+    .detail-body p {
+      color: #344143;
+    }
+
+    .detail-meta {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .detail-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .recommendations {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .recommendation {
+      padding: 9px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfaf7;
+    }
+
+    .recommendation strong {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 13px;
+      color: #243033;
+    }
+
+    .recommendation span {
+      display: block;
+      color: #566463;
+      font-size: 13px;
+      line-height: 1.38;
+    }
+
+    .detail-links a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 5px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfaf7;
+      color: #223033;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .detail-links a:hover,
+    .detail-links a:focus-visible {
+      border-color: #9fb7af;
+      outline: none;
+      background: #f4f7f5;
+    }
+
+    @media (max-width: 860px) {
+      .layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(520px, 64vh) auto;
+        grid-template-areas:
+          "map"
+          "sidebar";
+      }
+
+      aside {
+        height: auto;
+        max-height: none;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .map-wrap {
+        min-height: 68vh;
+      }
+
+      .legend {
+        right: 10px;
+        left: 10px;
+        bottom: 10px;
+        max-width: none;
+      }
+
+      .detail-panel {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        width: auto;
+        max-height: calc(100vh - 20px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="layout">
+    <aside>
+      <section>
+        <h1>Iceland Camper Map</h1>
+        <p>Draft route for June 13-27 with optional branches and clickable planning points. Keep this as a flexible guide, not a hard schedule.</p>
+      </section>
+
+      <section class="panel">
+        <h2>Map Layers</h2>
+        <div class="filters" id="filters"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Planning Points</h2>
+        <div class="list" id="pointList"></div>
+      </section>
+    </aside>
+
+    <section class="map-wrap" aria-label="Interactive itinerary map">
+      <div id="map"></div>
+      <div class="detail-panel" id="detailPanel" aria-live="polite"></div>
+      <div class="legend" id="legend"></div>
+    </section>
+  </main>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+  <script>
+    const categories = {
+      core: { label: "Core route", color: "#136f63" },
+      camp: { label: "Campground areas", color: "#2d6cdf" },
+      food: { label: "Food / special meals", color: "#b2552d" },
+      solstice: { label: "Solstice options", color: "#8f5aa3" },
+      branch: { label: "Optional branches", color: "#5f7f2e" },
+      highland: { label: "Highland options", color: "#7a4f24" },
+      hotspring: { label: "Hot springs / pools", color: "#008c9e" },
+      waterfall: { label: "Waterfalls", color: "#1877b9" },
+      road: { label: "Named roads", color: "#455a64" },
+      froad: { label: "F-roads / highland roads", color: "#c47a2c" },
+      safety: { label: "Safety / live checks", color: "#b83232" }
+    };
+
+    const points = [
+      { id: "A", name: "Keflavík Airport", category: "core", day: "June 13 / June 27", lat: 63.9850, lng: -22.6056, note: "Arrival, camper pickup logistics, and final departure area." },
+      { id: "B", name: "Reykjavík", category: "core", day: "June 13 / June 26", lat: 64.1466, lng: -21.9426, note: "Easy first or last night, supplies, pools, food, and backup weather day." },
+      { id: "C", name: "Þingvellir", category: "core", day: "June 14", lat: 64.2559, lng: -21.1295, note: "Golden Circle start for the anniversary day." },
+      { id: "D", name: "Geysir", category: "core", day: "June 14", lat: 64.3137, lng: -20.3000, note: "Classic Golden Circle stop; keep timing gentle." },
+      { id: "E", name: "Gullfoss", category: "waterfall", day: "June 14", lat: 64.3271, lng: -20.1199, note: "Golden Circle waterfall and anniversary-day highlight before meal plans." },
+      { id: "F", name: "Friðheimar", category: "food", day: "June 14", lat: 64.1766, lng: -20.4458, note: "Distinctive greenhouse lunch candidate for the 40th anniversary." },
+      { id: "G", name: "Mika", category: "food", day: "June 14", lat: 64.1751, lng: -20.4493, note: "Reykholt dinner backup: warm, special, not overly formal." },
+      { id: "H", name: "Tryggvaskáli / Selfoss", category: "food", day: "June 14", lat: 63.9335, lng: -20.9970, note: "Current main anniversary dinner candidate; camp nearby afterward." },
+      { id: "I", name: "Seljalandsfoss", category: "waterfall", day: "June 15", lat: 63.6156, lng: -19.9886, note: "South Coast classic; bring rain gear if walking behind the falls." },
+      { id: "J", name: "Skógafoss", category: "waterfall", day: "June 15", lat: 63.5321, lng: -19.5114, note: "Major South Coast waterfall with staircase viewpoint and Fimmvörðuháls trail access." },
+      { id: "K", name: "Dyrhólaey / Reynisfjara", category: "core", day: "June 15", lat: 63.4044, lng: -19.1173, note: "Sea cliffs and black sand beach; watch sneaker-wave warnings." },
+      { id: "L", name: "Vík", category: "camp", day: "June 15", lat: 63.4186, lng: -19.0060, note: "Likely South Coast campground target." },
+      { id: "M", name: "Kirkjubæjarklaustur", category: "camp", day: "June 16", lat: 63.7897, lng: -18.0649, note: "Useful campground base before Skaftafell/glacier lagoon." },
+      { id: "N", name: "Skaftafell", category: "core", day: "June 16", lat: 64.0167, lng: -16.9667, note: "Hikes, Svartifoss, and national park campground option." },
+      { id: "O", name: "Jökulsárlón / Diamond Beach", category: "core", day: "June 17", lat: 64.0481, lng: -16.1794, note: "Glacier lagoon and beach; optional guided activity area." },
+      { id: "P", name: "Höfn", category: "camp", day: "June 17", lat: 64.2539, lng: -15.2082, note: "Southeast reset: camp, fuel, showers, laundry, food." },
+      { id: "Q", name: "Seyðisfjörður", category: "branch", day: "June 18", lat: 65.2608, lng: -14.0098, note: "Beautiful Eastfjords option if weather supports it." },
+      { id: "R", name: "Egilsstaðir", category: "camp", day: "June 18/19", lat: 65.2669, lng: -14.3948, note: "Practical East Iceland base before heading north." },
+      { id: "S", name: "Dettifoss", category: "waterfall", day: "June 19/20", lat: 65.8147, lng: -16.3846, note: "Powerful Jökulsárgljúfur waterfall; check which approach road is open and practical." },
+      { id: "T", name: "Mývatn", category: "solstice", day: "June 20-21", lat: 65.6039, lng: -17.0007, note: "Best all-around solstice base: lava fields, crater walks, geothermal baths, lots nearby." },
+      { id: "U", name: "Húsavík", category: "solstice", day: "June 20-21", lat: 66.0449, lng: -17.3389, note: "Best coastal/romantic solstice option: whales, harbor, GeoSea, north-facing light." },
+      { id: "V", name: "Ásbyrgi", category: "solstice", day: "June 20-21", lat: 66.0178, lng: -16.5055, note: "Best quiet/stay-put solstice option: canyon walks, trees, calm campground energy." },
+      { id: "W", name: "Akureyri", category: "core", day: "June 22", lat: 65.6826, lng: -18.0907, note: "North Iceland town stop; useful for supplies and reset." },
+      { id: "X", name: "Siglufjörður", category: "branch", day: "June 22", lat: 66.1513, lng: -18.9082, note: "Tröllaskagi scenery and atmospheric northern harbor town." },
+      { id: "Y", name: "Hólmavík / Drangsnes", category: "branch", day: "June 23", lat: 65.7048, lng: -21.6810, note: "Westfjords entry option if weather and appetite for remoteness are good." },
+      { id: "Z", name: "Ísafjörður", category: "branch", day: "June 24", lat: 66.0749, lng: -23.1340, note: "Main Westfjords town and base if committing to the branch." },
+      { id: "AA", name: "Dynjandi", category: "waterfall", day: "June 25", lat: 65.7328, lng: -23.1998, note: "Major Westfjords waterfall; gorgeous but slower road logistics and branch commitment." },
+      { id: "AB", name: "Stykkishólmur", category: "branch", day: "June 23/24", lat: 65.0755, lng: -22.7298, note: "Snæfellsnes entry or ferry/logistics option." },
+      { id: "AC", name: "Kirkjufell / Grundarfjörður", category: "branch", day: "June 24", lat: 64.9262, lng: -23.3098, note: "Snæfellsnes scenic base and campground target." },
+      { id: "AD", name: "Snæfellsjökull / Arnarstapi", category: "branch", day: "June 25", lat: 64.7706, lng: -23.6218, note: "Snæfellsnes coast, lava fields, cliffs, and national park area." },
+      { id: "AE", name: "Borgarnes / Borgarfjörður", category: "camp", day: "June 25/26", lat: 64.5383, lng: -21.9206, note: "Return-to-southwest buffer with Hraunfossar, Barnafoss, and Húsafell nearby." },
+      { id: "AF", name: "Kerlingarfjöll", category: "highland", day: "Final flex only", lat: 64.6834, lng: -19.2997, note: "Possible highland bonus if F-roads, weather, and rental terms all line up." },
+      { id: "AG", name: "Hveravellir", category: "highland", day: "Final flex only", lat: 64.8661, lng: -19.5578, note: "Kjölur/F35 highland option; check road status first." },
+      { id: "AH", name: "Landmannalaugar", category: "highland", day: "Only if open/suitable", lat: 63.9910, lng: -19.0607, note: "Potential 4x4 highlight, but late-June access and route choice matter." },
+      { id: "AI", name: "Road / weather checks", category: "safety", day: "Every evening", lat: 64.9631, lng: -19.0208, note: "Use umferdin.is, Safetravel, and Vedur before remote roads, highlands, or exposed drives." },
+      { id: "HS1", name: "Blue Lagoon", category: "hotspring", day: "June 13 or 26", lat: 63.8804, lng: -22.4495, note: "Famous Reykjanes geothermal spa. Useful arrival/departure option; usually requires booking and is pricier." },
+      { id: "HS2", name: "Sky Lagoon", category: "hotspring", day: "June 13 or 26", lat: 64.1247, lng: -21.9293, note: "Oceanfront geothermal spa near Reykjavík. Good first/last night option if you want polished but not a big detour." },
+      { id: "HS3", name: "Laugarvatn Fontana", category: "hotspring", day: "June 14", lat: 64.2142, lng: -20.7316, note: "Golden Circle geothermal baths and steam rooms. Easy anniversary-day soak if timing works." },
+      { id: "HS4", name: "Secret Lagoon", category: "hotspring", day: "June 14", lat: 64.1377, lng: -20.3097, note: "Relaxed old geothermal pool at Flúðir. Strong fit for the anniversary route." },
+      { id: "HS5", name: "Hrunalaug", category: "hotspring", day: "June 14", lat: 64.1327, lng: -20.2587, note: "Tiny private hot spring near Flúðir. Verify current access, fees, and etiquette before going." },
+      { id: "HS6", name: "Reykjadalur Hot River", category: "hotspring", day: "June 14/15 or 26", lat: 64.0215, lng: -21.2118, note: "Hot river reached by hike from Hveragerði. Weather and trail conditions matter." },
+      { id: "HS7", name: "Seljavallalaug", category: "hotspring", day: "June 15", lat: 63.5656, lng: -19.6078, note: "Historic mountain pool near the South Coast. Often more warm than hot; rustic and unstaffed." },
+      { id: "HS8", name: "Hoffell Hot Tubs", category: "hotspring", day: "June 17", lat: 64.4084, lng: -15.3426, note: "Small hot tubs near Höfn with glacier-area views. Good southeast reset option." },
+      { id: "HS9", name: "Vök Baths", category: "hotspring", day: "June 18/19", lat: 65.2868, lng: -14.4419, note: "Floating geothermal baths near Egilsstaðir. Useful East Iceland comfort stop." },
+      { id: "HS10", name: "Mývatn Nature Baths", category: "hotspring", day: "June 20-21", lat: 65.6308, lng: -16.8477, note: "Best-fit solstice soak if based around Mývatn. Book/check hours closer to the day." },
+      { id: "HS11", name: "GeoSea", category: "hotspring", day: "June 20-21", lat: 66.0528, lng: -17.3394, note: "Geothermal sea baths above Húsavík. Very strong solstice-evening candidate." },
+      { id: "HS12", name: "Forest Lagoon", category: "hotspring", day: "June 22", lat: 65.6629, lng: -18.0489, note: "Akureyri-area geothermal forest spa. Good reset before heading west." },
+      { id: "HS13", name: "Grettislaug", category: "hotspring", day: "June 22/23", lat: 65.8820, lng: -19.7366, note: "Seaside hot pots near Sauðárkrókur. Nice if the northwest route lines up." },
+      { id: "HS14", name: "Drangsnes Hot Pots", category: "hotspring", day: "June 23", lat: 65.6885, lng: -21.4484, note: "Simple seaside hot pots near the Westfjords entry. Excellent camper-trip energy." },
+      { id: "HS15", name: "Hellulaug", category: "hotspring", day: "June 25", lat: 65.5776, lng: -23.1598, note: "Small seaside hot pot in the Westfjords. Verify current access and leave-no-trace expectations." },
+      { id: "HS16", name: "Krossneslaug", category: "hotspring", day: "Westfjords stretch option", lat: 66.0591, lng: -21.5119, note: "Remote north Westfjords pool. Beautiful but a major detour from the current itinerary." },
+      { id: "HS17", name: "Krauma", category: "hotspring", day: "June 25/26", lat: 64.6636, lng: -21.4107, note: "Developed baths at Deildartunguhver. Strong west/southwest return option." },
+      { id: "HS18", name: "Hvammsvík Hot Springs", category: "hotspring", day: "June 26", lat: 64.3739, lng: -21.5664, note: "Seaside hot springs in Hvalfjörður. Great final-flex soak if you want something special near Reykjavík." },
+      { id: "HS19", name: "Húsafell Canyon Baths", category: "hotspring", day: "June 25/26", lat: 64.7040, lng: -20.8716, note: "Guided geothermal canyon-bath experience near Húsafell. Check tour availability." },
+      { id: "HS20", name: "Hveravellir Hot Pool", category: "hotspring", day: "Highland option", lat: 64.8665, lng: -19.5579, note: "Highland hot pool on F35/Kjölur. Only if F35 is open and the camper rental terms allow it." },
+      { id: "HS21", name: "Landmannalaugar Hot Spring", category: "hotspring", day: "Highland option", lat: 63.9910, lng: -19.0607, note: "Classic highland hot spring. Only if roads are open, weather is stable, and access is permitted." },
+      { id: "WF1", name: "Gljúfrabúi", category: "waterfall", day: "June 15", lat: 63.6210, lng: -19.9860, note: "Hidden waterfall beside Seljalandsfoss; expect wet footing and crowds at the narrow canyon entrance." },
+      { id: "WF2", name: "Kvernufoss", category: "waterfall", day: "June 15", lat: 63.5275, lng: -19.4808, note: "Quiet-feeling waterfall near Skógar with a short walk; good companion stop to Skógafoss." },
+      { id: "WF3", name: "Svartifoss", category: "waterfall", day: "June 16", lat: 64.0275, lng: -16.9753, note: "Basalt-column waterfall reached by a Skaftafell hike; weather and energy decide whether it fits." },
+      { id: "WF4", name: "Hengifoss / Litlanesfoss", category: "waterfall", day: "June 18/19", lat: 65.0956, lng: -14.8898, note: "East Iceland hike with red strata and basalt columns; good if Egilsstaðir weather is kind." },
+      { id: "WF5", name: "Selfoss waterfall", category: "waterfall", day: "June 19/20", lat: 65.8050, lng: -16.3867, note: "Neighbor waterfall upstream from Dettifoss; pair it with whichever Dettifoss approach is practical." },
+      { id: "WF6", name: "Hafragilsfoss", category: "waterfall", day: "June 19/20", lat: 65.8328, lng: -16.3997, note: "Jökulsárgljúfur canyon viewpoint option north of Dettifoss; access and road side matter." },
+      { id: "WF7", name: "Hrafnabjargafoss", category: "waterfall", day: "June 20/22 or highland flex", lat: 65.3565, lng: -17.3036, note: "Aldeyjarfoss-area waterfall on the Skjálfandafljót route; check road conditions before treating it as easy." },
+      { id: "WF8", name: "Aldeyjarfoss", category: "waterfall", day: "June 20/22 or highland flex", lat: 65.3667, lng: -17.3428, note: "Beautiful basalt-framed waterfall south of Goðafoss; access can involve rougher interior roads." },
+      { id: "WF9", name: "Goðafoss", category: "waterfall", day: "June 22", lat: 65.6828, lng: -17.5502, note: "Easy Ring Road waterfall between Mývatn and Akureyri; strong fit for the June 22 transfer." },
+      { id: "WF10", name: "Kolugljúfur / Kolufossar", category: "waterfall", day: "June 23", lat: 65.3340, lng: -20.5590, note: "Northwest canyon waterfall option if crossing toward the Westfjords or Snæfellsnes." },
+      { id: "WF11", name: "Kirkjufellsfoss", category: "waterfall", day: "June 24", lat: 64.9263, lng: -23.3119, note: "Small but iconic Snæfellsnes waterfall below Kirkjufell; best if the easier west branch wins." },
+      { id: "WF12", name: "Hraunfossar / Barnafoss", category: "waterfall", day: "June 25/26", lat: 64.7010, lng: -20.9787, note: "Borgarfjörður waterfall pair that fits the return-to-southwest buffer well." },
+      { id: "WF13", name: "Glymur", category: "waterfall", day: "June 26 final flex", lat: 64.3853, lng: -21.2519, note: "Tall waterfall hike in Hvalfjörður; only choose it if weather, river/trail conditions, and timing are comfortable." },
+      { id: "WF14", name: "Brúarfoss", category: "waterfall", day: "June 14 or final flex", lat: 64.2644, lng: -20.5158, note: "Blue-water Golden Circle add-on; good if the anniversary day has spare time without feeling rushed." },
+      { id: "WF15", name: "Háifoss", category: "waterfall", day: "Highland-adjacent flex", lat: 64.2075, lng: -19.6866, note: "Dramatic highland-edge waterfall; road conditions and camper rental comfort decide whether it belongs." }
+    ];
+
+    const recommendations = {
+      F: [
+        { by: "Trip planning", note: "Anniversary lunch candidate because it is distinctive, memorable, and fits the Golden Circle day without feeling overly formal." }
+      ],
+      H: [
+        { by: "Trip planning", note: "Current leading anniversary dinner option: special, warm, and not top-end/fussy." }
+      ],
+      T: [
+        { by: "Trip planning", note: "Best all-around solstice base because there is a lot to do nearby without turning June 21 into a driving day." }
+      ],
+      U: [
+        { by: "Trip planning", note: "Best romantic/coastal solstice option because of whales, GeoSea, harbor dinner, and north-facing late light." }
+      ],
+      V: [
+        { by: "Trip planning", note: "Best quiet solstice option if the goal is a reflective stay-put day in nature." }
+      ],
+      HS10: [
+        { by: "Trip planning", note: "Strong solstice soak if Mývatn becomes the June 21 base." }
+      ],
+      HS11: [
+        { by: "Trip planning", note: "Strong solstice-evening soak if Húsavík becomes the June 21 base." }
+      ],
+      HS14: [
+        { by: "Trip planning", note: "Good camper-trip hot-pot energy near the Westfjords entry." }
+      ],
+      HS18: [
+        { by: "Trip planning", note: "Possible final-flex soak near Reykjavík if the trip wants a special ending without a long detour." }
+      ]
+    };
+
+    const routes = {
+      core: {
+        label: "Core counterclockwise loop",
+        category: "core",
+        color: categories.core.color,
+        points: ["A", "B", "C", "D", "E", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "T", "W", "AE", "B", "A"]
+      },
+      solstice: {
+        label: "Solstice triangle",
+        category: "solstice",
+        color: categories.solstice.color,
+        points: ["T", "U", "V", "T"]
+      },
+      westfjords: {
+        label: "Westfjords branch",
+        category: "branch",
+        color: categories.branch.color,
+        points: ["W", "X", "Y", "Z", "AA", "AB", "AE"]
+      },
+      snaefellsnes: {
+        label: "Snæfellsnes branch",
+        category: "branch",
+        color: categories.branch.color,
+        points: ["AE", "AB", "AC", "AD", "AE"]
+      },
+      highlands: {
+        label: "Highland possibilities",
+        category: "highland",
+        color: categories.highland.color,
+        points: ["E", "AG", "AF", "AH", "H"]
+      }
+    };
+
+    const roadSegments = [
+      {
+        label: "Route 1",
+        category: "road",
+        name: "Ring Road backbone",
+        note: "The reliable main loop for the camper itinerary. Still check wind, weather, and closures before exposed sections.",
+        coords: [
+          [64.1466, -21.9426],
+          [63.9335, -20.9970],
+          [63.6156, -19.9886],
+          [63.4186, -19.0060],
+          [63.7897, -18.0649],
+          [64.0167, -16.9667],
+          [64.0481, -16.1794],
+          [64.2539, -15.2082],
+          [65.2669, -14.3948],
+          [65.6039, -17.0007],
+          [65.6826, -18.0907],
+          [64.5383, -21.9206],
+          [64.1466, -21.9426]
+        ]
+      },
+      {
+        label: "862/864",
+        category: "road",
+        name: "Dettifoss approaches",
+        note: "Use the currently open/suitable side for Dettifoss. Road 862 is generally the more common paved west-side access; always verify conditions.",
+        coords: [
+          [65.6039, -17.0007],
+          [65.8147, -16.3846],
+          [66.0178, -16.5055]
+        ]
+      },
+      {
+        label: "85",
+        category: "road",
+        name: "Diamond Circle north coast road",
+        note: "Connects Mývatn/Húsavík/Ásbyrgi options for the solstice window.",
+        coords: [
+          [65.6039, -17.0007],
+          [66.0449, -17.3389],
+          [66.0178, -16.5055]
+        ]
+      },
+      {
+        label: "82/76",
+        category: "road",
+        name: "Tröllaskagi route",
+        note: "Scenic North Iceland branch through Dalvík, Ólafsfjörður, Siglufjörður, and Hofsós.",
+        coords: [
+          [65.6826, -18.0907],
+          [65.9702, -18.5286],
+          [66.0747, -18.6518],
+          [66.1513, -18.9082],
+          [65.8988, -19.4129]
+        ]
+      },
+      {
+        label: "60",
+        category: "road",
+        name: "Westfjords / Dynjandi road",
+        note: "Slow, beautiful Westfjords driving. Distances take longer than they look.",
+        coords: [
+          [65.7048, -21.6810],
+          [66.0749, -23.1340],
+          [65.7328, -23.1998],
+          [65.5965, -23.9958]
+        ]
+      },
+      {
+        label: "54/56",
+        category: "road",
+        name: "Snæfellsnes loop roads",
+        note: "Useful easier branch if Westfjords weather or timing is not attractive.",
+        coords: [
+          [64.5383, -21.9206],
+          [65.0755, -22.7298],
+          [64.9262, -23.3098],
+          [64.7706, -23.6218],
+          [64.8145, -22.7080],
+          [64.5383, -21.9206]
+        ]
+      },
+      {
+        label: "F35",
+        category: "froad",
+        name: "Kjölur / F35",
+        note: "Highland road between Gullfoss and the north. Possible late-trip option only if open, weather is stable, and rental terms allow it.",
+        coords: [
+          [64.3271, -20.1199],
+          [64.4800, -19.8500],
+          [64.8661, -19.5578],
+          [65.2700, -19.4500],
+          [65.6500, -19.5500]
+        ]
+      },
+      {
+        label: "F347",
+        category: "froad",
+        name: "Kerlingarfjöll spur",
+        note: "Short highland spur from F35 toward Kerlingarfjöll. Check F-road opening, weather, and camper rental permission.",
+        coords: [
+          [64.7200, -19.4300],
+          [64.6834, -19.2997]
+        ]
+      },
+      {
+        label: "F208/F224",
+        category: "froad",
+        name: "Landmannalaugar north/west approach",
+        note: "Often the more practical Landmannalaugar approach, but still condition-dependent. Confirm road openings and whether the camper is permitted.",
+        coords: [
+          [64.1100, -19.7300],
+          [64.0400, -19.3800],
+          [63.9910, -19.0607]
+        ]
+      },
+      {
+        label: "F208 S",
+        category: "froad",
+        name: "South Fjallabak / F208 south",
+        note: "Beautiful but more serious, with rougher driving and river-crossing concerns. Not a default plan for this camper itinerary.",
+        coords: [
+          [63.7897, -18.0649],
+          [63.8600, -18.6000],
+          [63.9100, -18.9500],
+          [63.9910, -19.0607]
+        ]
+      },
+      {
+        label: "F249",
+        category: "froad",
+        name: "Þórsmörk / F249",
+        note: "River crossings can be serious and rental insurance may not cover water damage. Prefer a bus/superjeep unless conditions and experience are excellent.",
+        coords: [
+          [63.6156, -19.9886],
+          [63.6800, -19.6000],
+          [63.6808, -19.4828]
+        ]
+      }
+    ];
+
+    const map = L.map("map", {
+      scrollWheelZoom: true,
+      zoomControl: true
+    }).setView([64.95, -18.85], 6);
+
+    const blankTile = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' fill='%23d8e3df'/%3E%3C/svg%3E";
+
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+      subdomains: "abcd",
+      maxZoom: 19,
+      errorTileUrl: blankTile,
+      attribution: "&copy; OpenStreetMap contributors &copy; CARTO"
+    }).addTo(map);
+
+    const markerLayer = L.layerGroup().addTo(map);
+    const lineLayer = L.layerGroup().addTo(map);
+    const roadLayer = L.layerGroup().addTo(map);
+    const markers = new Map();
+    const active = new Set(Object.keys(categories));
+    let selectedPointId = null;
+
+    function pointById(id) {
+      return points.find((point) => point.id === id);
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function markerIcon(point) {
+      const color = categories[point.category].color;
+      const label = point.category === "hotspring" ? "♨" : point.category === "waterfall" ? "W" : point.id;
+      return L.divIcon({
+        className: "",
+        html: `<div class="marker" style="background:${color}">${label}</div>`,
+        iconSize: [28, 28],
+        iconAnchor: [14, 14],
+        popupAnchor: [0, -16]
+      });
+    }
+
+    function popupHtml(point) {
+      return `
+        <h3 class="popup-title">${point.name}</h3>
+        <p class="popup-meta">${point.day} · ${categories[point.category].label}</p>
+        <p class="popup-note">${point.note}</p>
+      `;
+    }
+
+    function roadPopupHtml(segment) {
+      return `
+        <h3 class="popup-title">${segment.label}: ${segment.name}</h3>
+        <p class="popup-meta">${categories[segment.category].label}</p>
+        <p class="popup-note">${segment.note}</p>
+      `;
+    }
+
+    function roadId(segment) {
+      return `road-${segment.label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`;
+    }
+
+    function roadLabelIcon(segment) {
+      const color = categories[segment.category].color;
+      return L.divIcon({
+        className: "",
+        html: `<div class="road-label" style="background:${color}">${segment.label}</div>`,
+        iconSize: [48, 22],
+        iconAnchor: [24, 11]
+      });
+    }
+
+    function midpoint(coords) {
+      return coords[Math.floor(coords.length / 2)];
+    }
+
+    function wikiTitleForPoint(point) {
+      const titles = {
+        A: "Keflavík International Airport",
+        B: "Reykjavík",
+        C: "Þingvellir",
+        D: "Geysir",
+        E: "Gullfoss",
+        F: "Friðheimar",
+        H: "Selfoss (town)",
+        I: "Seljalandsfoss",
+        J: "Skógafoss",
+        K: "Reynisfjara",
+        L: "Vík í Mýrdal",
+        N: "Skaftafell",
+        O: "Jökulsárlón",
+        P: "Höfn",
+        Q: "Seyðisfjörður",
+        R: "Egilsstaðir",
+        S: "Dettifoss",
+        T: "Mývatn",
+        U: "Húsavík",
+        V: "Ásbyrgi",
+        W: "Akureyri",
+        X: "Siglufjörður",
+        Z: "Ísafjörður",
+        AA: "Dynjandi",
+        AB: "Stykkishólmur",
+        AC: "Kirkjufell",
+        AD: "Snæfellsjökull",
+        AE: "Borgarnes",
+        AF: "Kerlingarfjöll",
+        AG: "Hveravellir",
+        AH: "Landmannalaugar",
+        HS1: "Blue Lagoon (geothermal spa)",
+        HS2: "Sky Lagoon",
+        HS3: "Laugarvatn Fontana",
+        HS4: "Secret Lagoon (Iceland)",
+        HS6: "Reykjadalur",
+        HS7: "Seljavallalaug",
+        HS9: "Vök Baths",
+        HS10: "Mývatn Nature Baths",
+        HS11: "GeoSea",
+        HS17: "Deildartunguhver",
+        HS21: "Landmannalaugar",
+        WF1: "Gljúfrabúi",
+        WF2: "Kvernufoss",
+        WF3: "Svartifoss",
+        WF4: "Hengifoss",
+        WF5: "Selfoss (waterfall)",
+        WF6: "Hafragilsfoss",
+        WF7: "Hrafnabjargafoss",
+        WF8: "Aldeyjarfoss",
+        WF9: "Goðafoss",
+        WF10: "Kolugljúfur",
+        WF11: "Kirkjufellsfoss",
+        WF12: "Hraunfossar",
+        WF13: "Glymur",
+        WF14: "Brúarfoss",
+        WF15: "Háifoss"
+      };
+      return titles[point.id] || point.name.split("/")[0].trim();
+    }
+
+    function searchLinksForPoint(point) {
+      const query = `${point.name} Iceland`;
+      const encoded = encodeURIComponent(query);
+      return [
+        { label: "OpenStreetMap", href: `https://www.openstreetmap.org/search?query=${encoded}` },
+        { label: "Google Maps", href: `https://www.google.com/maps/search/?api=1&query=${encoded}` },
+        { label: "Web search", href: `https://www.google.com/search?q=${encoded}` }
+      ];
+    }
+
+    function searchLinksForRoad(segment) {
+      const query = `${segment.label} ${segment.name} Iceland`;
+      const encoded = encodeURIComponent(query);
+      return [
+        { label: "Road status", href: "https://umferdin.is/en" },
+        { label: "Safetravel", href: "https://safetravel.is" },
+        { label: "Web search", href: `https://www.google.com/search?q=${encoded}` }
+      ];
+    }
+
+    function renderLinks(links) {
+      return links.map((link) => `
+        <a href="${escapeHtml(link.href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label)}</a>
+      `).join("");
+    }
+
+    function renderRecommendations(items = []) {
+      if (!items.length) {
+        return "";
+      }
+
+      return `
+        <section>
+          <h3>Recommendations / Notes</h3>
+          <ul class="recommendations">
+            ${items.map((item) => `
+              <li class="recommendation">
+                <strong>${escapeHtml(item.by)}</strong>
+                <span>${escapeHtml(item.note)}</span>
+              </li>
+            `).join("")}
+          </ul>
+        </section>
+      `;
+    }
+
+    function renderDetailShell({ title, meta, note, color, links, recommendationItems = [] }) {
+      const panel = document.getElementById("detailPanel");
+      panel.classList.add("open");
+      panel.innerHTML = `
+        <button class="detail-close" type="button" aria-label="Close details">&times;</button>
+        <div class="detail-visual fallback" id="detailVisual" style="background:linear-gradient(135deg, ${color}, #d8e3df)">
+          <h2 class="detail-visual-title">${escapeHtml(title)}</h2>
+        </div>
+        <div class="detail-body">
+          <h3>${escapeHtml(title)}</h3>
+          <div class="detail-meta">${escapeHtml(meta)}</div>
+          <p>${escapeHtml(note)}</p>
+          ${renderRecommendations(recommendationItems)}
+          <div class="detail-links">${renderLinks(links)}</div>
+        </div>
+      `;
+    }
+
+    async function enrichDetailWithWikipedia(title) {
+      try {
+        const response = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`);
+        if (!response.ok) {
+          return;
+        }
+        const data = await response.json();
+        const panel = document.getElementById("detailPanel");
+        const visual = panel.querySelector("#detailVisual");
+        const body = panel.querySelector(".detail-body");
+
+        if (data.thumbnail && data.thumbnail.source && visual) {
+          visual.classList.remove("fallback");
+          visual.innerHTML = `<img src="${escapeHtml(data.thumbnail.source)}" alt="">`;
+        }
+
+        if (data.extract && body && !body.querySelector("[data-wiki-summary]")) {
+          const summary = document.createElement("p");
+          summary.dataset.wikiSummary = "true";
+          summary.textContent = data.extract;
+          body.insertBefore(summary, body.querySelector(".detail-links"));
+        }
+
+        if (data.content_urls && data.content_urls.desktop && data.content_urls.desktop.page) {
+          const links = body.querySelector(".detail-links");
+          if (links && !links.querySelector("[data-wiki-link]")) {
+            const wikiLink = document.createElement("a");
+            wikiLink.dataset.wikiLink = "true";
+            wikiLink.href = data.content_urls.desktop.page;
+            wikiLink.target = "_blank";
+            wikiLink.rel = "noopener noreferrer";
+            wikiLink.textContent = "Wikipedia";
+            links.prepend(wikiLink);
+          }
+        }
+      } catch (error) {
+        console.warn("Wikipedia detail unavailable", error);
+      }
+    }
+
+    function openPointDetail(point) {
+      selectPoint(point.id, true);
+      renderDetailShell({
+        title: point.name,
+        meta: `${point.day} · ${categories[point.category].label}`,
+        note: point.note,
+        color: categories[point.category].color,
+        links: searchLinksForPoint(point),
+        recommendationItems: recommendations[point.id] || []
+      });
+      enrichDetailWithWikipedia(wikiTitleForPoint(point));
+    }
+
+    function openRoadDetail(segment) {
+      const id = roadId(segment);
+      selectPoint(id, true);
+      renderDetailShell({
+        title: `${segment.label}: ${segment.name}`,
+        meta: categories[segment.category].label,
+        note: segment.note,
+        color: categories[segment.category].color,
+        links: searchLinksForRoad(segment)
+      });
+    }
+
+    function selectPoint(pointId, shouldScroll = true) {
+      selectedPointId = pointId;
+      document.querySelectorAll(".item.selected").forEach((item) => {
+        item.classList.remove("selected");
+      });
+
+      const item = document.querySelector(`.item[data-id="${CSS.escape(pointId)}"], .item[data-road-id="${CSS.escape(pointId)}"]`);
+      if (!item) {
+        return;
+      }
+
+      item.classList.add("selected");
+      if (shouldScroll) {
+        item.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+
+    function drawMap() {
+      markerLayer.clearLayers();
+      lineLayer.clearLayers();
+      roadLayer.clearLayers();
+      markers.clear();
+
+      Object.values(routes).forEach((route) => {
+        const routePoints = route.points.map(pointById).filter(Boolean);
+        if (!active.has(route.category)) {
+          return;
+        }
+        const latLngs = routePoints.map((point) => [point.lat, point.lng]);
+        L.polyline(latLngs, {
+          color: route.color,
+          weight: route.label.includes("Core") ? 4 : 3,
+          opacity: route.label.includes("Core") ? 0.72 : 0.54,
+          dashArray: route.label.includes("Core") ? null : "7 9"
+        }).addTo(lineLayer);
+      });
+
+      roadSegments.forEach((segment) => {
+        if (!active.has(segment.category)) {
+          return;
+        }
+        const isFroad = segment.category === "froad";
+        const polyline = L.polyline(segment.coords, {
+          color: categories[segment.category].color,
+          weight: isFroad ? 5 : 4,
+          opacity: isFroad ? 0.92 : 0.66,
+          dashArray: isFroad ? "5 8" : null,
+          lineCap: "round"
+        })
+          .bindPopup(roadPopupHtml(segment));
+        polyline.on("click", () => {
+          openRoadDetail(segment);
+        });
+        polyline.addTo(roadLayer);
+
+        const labelPoint = midpoint(segment.coords);
+        L.marker(labelPoint, { icon: roadLabelIcon(segment), interactive: true })
+          .bindPopup(roadPopupHtml(segment))
+          .on("click", () => {
+            openRoadDetail(segment);
+          })
+          .addTo(roadLayer);
+      });
+
+      points.forEach((point) => {
+        if (!active.has(point.category)) {
+          return;
+        }
+        const marker = L.marker([point.lat, point.lng], { icon: markerIcon(point) })
+          .bindPopup(popupHtml(point));
+        marker.on("click", () => {
+          selectPoint(point.id, true);
+        });
+        marker.addTo(markerLayer);
+        markers.set(point.id, marker);
+      });
+
+      renderPointList();
+      if (selectedPointId) {
+        selectPoint(selectedPointId, false);
+      }
+    }
+
+    function renderFilters() {
+      const filters = document.getElementById("filters");
+      filters.innerHTML = `
+        <div class="filter-actions" aria-label="Layer selection controls">
+          <button class="filter-action" type="button" data-layer-action="all">All</button>
+          <button class="filter-action" type="button" data-layer-action="none">None</button>
+        </div>
+      ` + Object.entries(categories).map(([key, category]) => `
+        <label class="filter">
+          <input type="checkbox" value="${key}" checked>
+          <span class="swatch" style="background:${category.color}"></span>
+          <span>${category.label}</span>
+        </label>
+      `).join("");
+
+      filters.addEventListener("change", (event) => {
+        if (event.target.tagName !== "INPUT") {
+          return;
+        }
+        if (event.target.checked) {
+          active.add(event.target.value);
+        } else {
+          active.delete(event.target.value);
+        }
+        drawMap();
+      });
+
+      filters.addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-layer-action]");
+        if (!button) {
+          return;
+        }
+
+        const shouldEnable = button.dataset.layerAction === "all";
+        active.clear();
+        filters.querySelectorAll("input[type='checkbox']").forEach((checkbox) => {
+          checkbox.checked = shouldEnable;
+          if (shouldEnable) {
+            active.add(checkbox.value);
+          }
+        });
+        drawMap();
+      });
+    }
+
+    function renderLegend() {
+      const legend = document.getElementById("legend");
+      legend.innerHTML = Object.values(categories).map((category) => `
+        <span><i class="dot" style="background:${category.color}"></i>${category.label}</span>
+      `).join("");
+    }
+
+    function quickLinksForPoint(point) {
+      if (point.id !== "AI") {
+        return "";
+      }
+
+      return `
+        <span class="item-quick-links">
+          <a class="item-quick-link" href="https://umferdin.is/en" target="_blank" rel="noopener noreferrer">Road status</a>
+        </span>
+      `;
+    }
+
+    function renderPointList() {
+      const list = document.getElementById("pointList");
+      const visiblePoints = points.filter((point) => active.has(point.category));
+      const visibleRoads = roadSegments.filter((segment) => active.has(segment.category));
+      const pointItems = visiblePoints.map((point) => `
+        <div class="item" role="button" tabindex="0" data-id="${point.id}">
+          <span class="item-title">
+            <span class="badge" style="background:${categories[point.category].color}">${point.id}</span>
+            <span class="item-name">${point.name}</span>
+            ${recommendations[point.id] ? `<span class="badge" title="Has recommendations or notes" style="background:#394545">note</span>` : ""}
+            <button class="info-button" type="button" aria-label="More details about ${escapeHtml(point.name)}" data-info-id="${point.id}">?</button>
+          </span>
+          <span class="item-meta">${point.day} · ${point.note}</span>
+          ${quickLinksForPoint(point)}
+        </div>
+      `);
+      const roadItems = visibleRoads.map((segment) => `
+        <div class="item" role="button" tabindex="0" data-road-id="${roadId(segment)}">
+          <span class="item-title">
+            <span class="badge" style="background:${categories[segment.category].color}">${segment.label}</span>
+            <span class="item-name">${segment.name}</span>
+            <button class="info-button" type="button" aria-label="More details about ${escapeHtml(segment.label)} ${escapeHtml(segment.name)}" data-info-road-id="${roadId(segment)}">?</button>
+          </span>
+          <span class="item-meta">${categories[segment.category].label} · ${segment.note}</span>
+        </div>
+      `);
+      list.innerHTML = pointItems.concat(roadItems).join("");
+    }
+
+    document.getElementById("pointList").addEventListener("click", (event) => {
+      const infoButton = event.target.closest("button[data-info-id]");
+      if (infoButton) {
+        const point = pointById(infoButton.dataset.infoId);
+        if (point) {
+          openPointDetail(point);
+        }
+        return;
+      }
+
+      const infoRoadButton = event.target.closest("button[data-info-road-id]");
+      if (infoRoadButton) {
+        const segment = roadSegments.find((candidate) => roadId(candidate) === infoRoadButton.dataset.infoRoadId);
+        if (segment) {
+          openRoadDetail(segment);
+        }
+        return;
+      }
+
+      const pointButton = event.target.closest(".item[data-id]");
+      const roadButton = event.target.closest(".item[data-road-id]");
+      if (!pointButton && !roadButton) {
+        return;
+      }
+
+      if (roadButton) {
+        const segment = roadSegments.find((candidate) => roadId(candidate) === roadButton.dataset.roadId);
+        if (!segment) {
+          return;
+        }
+        selectPoint(roadButton.dataset.roadId, false);
+        map.fitBounds(L.latLngBounds(segment.coords), { maxZoom: 8, padding: [46, 46] });
+        L.popup()
+          .setLatLng(midpoint(segment.coords))
+          .setContent(roadPopupHtml(segment))
+          .openOn(map);
+        return;
+      }
+
+      const point = pointById(pointButton.dataset.id);
+      const marker = markers.get(point.id);
+      selectPoint(point.id, false);
+      map.setView([point.lat, point.lng], Math.max(map.getZoom(), 9), { animate: true });
+      if (marker) {
+        marker.openPopup();
+      }
+    });
+
+    document.getElementById("pointList").addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") {
+        return;
+      }
+      const item = event.target.closest(".item");
+      if (!item || event.target.closest(".info-button")) {
+        return;
+      }
+      event.preventDefault();
+      item.click();
+    });
+
+    document.getElementById("detailPanel").addEventListener("click", (event) => {
+      if (event.target.closest(".detail-close")) {
+        document.getElementById("detailPanel").classList.remove("open");
+      }
+    });
+
+    renderFilters();
+    renderLegend();
+    drawMap();
+
+    const bounds = L.latLngBounds(points.map((point) => [point.lat, point.lng]));
+
+    function fitIceland() {
+      map.invalidateSize();
+      const size = map.getSize();
+      if (size.x < 900) {
+        map.setView([64.95, -18.95], 5);
+        return;
+      }
+      map.fitBounds(bounds, {
+        maxZoom: 6,
+        paddingTopLeft: [36, 36],
+        paddingBottomRight: [36, 96]
+      });
+    }
+
+    fitIceland();
+    window.addEventListener("load", fitIceland);
+    window.addEventListener("resize", fitIceland);
+    setTimeout(fitIceland, 150);
+    setTimeout(fitIceland, 700);
+  </script>
+</body>
+</html>
