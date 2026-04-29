@@ -22,7 +22,7 @@ The interactive map is meant to be a menu of options, not a strict turn-by-turn 
 - Core route and campground areas
 - Food and special meal candidates
 - Hot springs and geothermal pools
-- Waterfalls
+- Waterfalls and lakes
 - Volcanoes and lava fields
 - Optional branches, highland roads, and safety/live-check points
 

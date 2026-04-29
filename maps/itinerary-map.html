@@ -246,6 +246,49 @@
       border-top: 1px solid var(--line);
     }
 
+    .panel-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .panel-heading h2 {
+      margin: 0;
+    }
+
+    .collapse-toggle {
+      display: inline-grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: #fbfaf7;
+      color: #334143;
+      cursor: pointer;
+      font: inherit;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .collapse-toggle:hover,
+    .collapse-toggle:focus-visible {
+      border-color: #9fb7af;
+      outline: none;
+      background: #eef5f2;
+    }
+
+    .collapse-toggle[aria-expanded="false"] {
+      transform: rotate(-90deg);
+    }
+
+    .collapsible[hidden] {
+      display: none;
+    }
+
     .filters {
       display: grid;
       gap: 9px;
@@ -299,6 +342,33 @@
       border-radius: 50%;
       background: var(--core);
       box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .search-wrap {
+      margin-bottom: 10px;
+    }
+
+    .search-input {
+      width: 100%;
+      min-height: 38px;
+      padding: 8px 11px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfaf7;
+      color: var(--ink);
+      font: inherit;
+      font-size: 14px;
+    }
+
+    .search-input::placeholder {
+      color: #7b8785;
+    }
+
+    .search-input:focus {
+      border-color: #9fb7af;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(19, 111, 99, 0.12);
+      background: #ffffff;
     }
 
     .list {
@@ -417,6 +487,16 @@
       border-color: #9fb7af;
       outline: none;
       background: #eef5f2;
+    }
+
+    .empty-state {
+      padding: 14px 12px;
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+      color: var(--muted);
+      background: #fbfaf7;
+      font-size: 13px;
+      line-height: 1.4;
     }
 
     .map-wrap {
@@ -707,12 +787,18 @@
       </section>
 
       <section class="panel">
-        <h2>Map Layers</h2>
-        <div class="filters" id="filters"></div>
+        <div class="panel-heading">
+          <h2>Map Layers</h2>
+          <button class="collapse-toggle" id="layerToggle" type="button" aria-expanded="true" aria-controls="filters" aria-label="Collapse map layers">⌄</button>
+        </div>
+        <div class="filters collapsible" id="filters"></div>
       </section>
 
       <section class="panel">
         <h2>Planning Points</h2>
+        <div class="search-wrap">
+          <input class="search-input" id="pointSearch" type="search" placeholder="Search planning points" autocomplete="off">
+        </div>
         <div class="list" id="pointList"></div>
       </section>
     </aside>
@@ -737,7 +823,7 @@
       branch: { label: "Optional branches", color: "#5f7f2e" },
       highland: { label: "Highland options", color: "#7a4f24" },
       hotspring: { label: "Hot springs / pools", color: "#008c9e" },
-      waterfall: { label: "Waterfalls", color: "#1877b9" },
+      waterfall: { label: "Waterfalls / lakes", color: "#1877b9" },
       volcano: { label: "Volcanoes / lava fields", color: "#8a3b1f" },
       road: { label: "Named roads", color: "#455a64" },
       froad: { label: "F-roads / highland roads", color: "#c47a2c" },
@@ -816,6 +902,16 @@
       { id: "WF13", name: "Glymur", category: "waterfall", day: "June 26 final flex", lat: 64.3853, lng: -21.2519, note: "Tall waterfall hike in Hvalfjörður; only choose it if weather, river/trail conditions, and timing are comfortable." },
       { id: "WF14", name: "Brúarfoss", category: "waterfall", day: "June 14 or final flex", lat: 64.2644, lng: -20.5158, note: "Blue-water Golden Circle add-on; good if the anniversary day has spare time without feeling rushed." },
       { id: "WF15", name: "Háifoss", category: "waterfall", day: "Highland-adjacent flex", lat: 64.2075, lng: -19.6866, note: "Dramatic highland-edge waterfall; road conditions and camper rental comfort decide whether it belongs." },
+      { id: "LK1", name: "Þingvallavatn", category: "waterfall", day: "June 14", lat: 64.1786, lng: -21.1000, note: "Large rift-valley lake at Þingvellir. Good scenic context for the Golden Circle start." },
+      { id: "LK2", name: "Laugarvatn", category: "waterfall", day: "June 14", lat: 64.2190, lng: -20.7270, note: "Lake and village between Þingvellir and Geysir, useful if pairing the day with Fontana or a gentler anniversary pace." },
+      { id: "LK3", name: "Fjallsárlón", category: "waterfall", day: "June 17", lat: 64.0156, lng: -16.3850, note: "Smaller glacier lagoon near Jökulsárlón. Often a quieter companion stop if timing and weather are good." },
+      { id: "LK4", name: "Jökulsárlón", category: "waterfall", day: "June 17", lat: 64.0508, lng: -16.1980, note: "Major glacier lagoon already on the core route; keep it visible in the water layer as well as the itinerary backbone." },
+      { id: "LK5", name: "Lagarfljót", category: "waterfall", day: "June 18/19", lat: 65.1330, lng: -14.8000, note: "Long lake near Egilsstaðir and Hengifoss; good East Iceland weather-dependent scenic option." },
+      { id: "LK6", name: "Lake Mývatn", category: "waterfall", day: "June 20-21", lat: 65.5710, lng: -17.0330, note: "Carla-recommended lake and solstice-base candidate with lava fields, pseudocraters, birdlife, and geothermal stops nearby." },
+      { id: "LK7", name: "Hvalvatn", category: "waterfall", day: "June 26 final flex", lat: 64.3910, lng: -21.1680, note: "Lake above Glymur. Only relevant if the final-flex day becomes the Glymur hike." },
+      { id: "LK8", name: "Kleifarvatn", category: "waterfall", day: "June 13 or 26", lat: 63.9250, lng: -21.9700, note: "Reykjanes lake option near geothermal terrain. Useful first/last-day scenery if the peninsula fits." },
+      { id: "LK9", name: "Langisjór", category: "waterfall", day: "Highland stretch only", lat: 64.1920, lng: -18.5700, note: "Remote highland lake with big views. Only consider with open roads, stable weather, fuel margin, and rental permission." },
+      { id: "LK10", name: "Þórisvatn", category: "waterfall", day: "Highland-adjacent flex", lat: 64.2200, lng: -18.9000, note: "Large highland reservoir/lake area near interior routes. Treat as condition-dependent scenery, not a default stop." },
       { id: "V1", name: "Reykjanes / Fagradalsfjall eruption area", category: "volcano", day: "June 13 or 26", lat: 63.8950, lng: -22.2700, note: "Only visit if official access is open. Check SafeTravel, Vedur/IMO, gas forecasts, and closures before treating this as a stop." },
       { id: "V2", name: "Kerið crater", category: "volcano", day: "June 14", lat: 64.0413, lng: -20.8844, note: "Easy Golden Circle volcanic crater add-on near the anniversary route if the day still feels spacious." },
       { id: "V3", name: "Eldhraun lava field", category: "volcano", day: "June 16", lat: 63.7420, lng: -18.1600, note: "Vast moss-covered lava field from the Laki eruption. Stay on marked paths and protect the fragile moss." },
@@ -826,7 +922,7 @@
       { id: "V8", name: "Snæfellsjökull", category: "volcano", day: "June 25 if Snæfellsnes", lat: 64.8096, lng: -23.7731, note: "Glacier-capped volcano and national park centerpiece if the Snæfellsnes branch wins." },
       { id: "V9", name: "Saxhóll crater", category: "volcano", day: "June 25 if Snæfellsnes", lat: 64.8511, lng: -23.9240, note: "Short stair climb to a crater viewpoint on Snæfellsnes; good low-commitment volcanic stop." },
       { id: "V10", name: "Grábrók crater", category: "volcano", day: "June 25/26", lat: 64.7712, lng: -21.5365, note: "Easy crater walk near Bifröst/Borgarfjörður during the return-to-southwest buffer." },
-      { id: "V11", name: "Eldfell / Heimaey", category: "volcano", day: "South Coast ferry branch", lat: 63.4320, lng: -20.2470, note: "Westman Islands volcano from the 1973 eruption. Worthwhile only if ferry timing, weather, and trip pace make the branch easy." }
+      { id: "V11", name: "Vestmannaeyjar / Westman Islands / Heimaey / Eldfell", category: "volcano", day: "South Coast ferry branch", lat: 63.4320, lng: -20.2470, note: "Island branch with Heimaey, Eldfell volcano, harbor, cliffs, and puffin possibilities. Worthwhile only if ferry timing, weather, and trip pace make it feel easy." }
     ];
 
     const recommendations = {
@@ -837,7 +933,8 @@
         { by: "Trip planning", note: "Current leading anniversary dinner option: special, warm, and not top-end/fussy." }
       ],
       T: [
-        { by: "Trip planning", note: "Best all-around solstice base because there is a lot to do nearby without turning June 21 into a driving day." }
+        { by: "Trip planning", note: "Best all-around solstice base because there is a lot to do nearby without turning June 21 into a driving day." },
+        { by: "Carla", note: "Recommended Lake Mývatn as a place to keep on the itinerary radar." }
       ],
       U: [
         { by: "Trip planning", note: "Best romantic/coastal solstice option because of whales, GeoSea, harbor dinner, and north-facing late light." }
@@ -856,6 +953,9 @@
       ],
       HS18: [
         { by: "Trip planning", note: "Possible final-flex soak near Reykjavík if the trip wants a special ending without a long detour." }
+      ],
+      V11: [
+        { by: "Carla", note: "Recommended Vestmannaeyjar / Westman Islands / Heimaey as a place to consider if ferry timing and trip pace make the branch feel easy." }
       ]
     };
 
@@ -1054,9 +1154,50 @@
     const markers = new Map();
     const active = new Set(Object.keys(categories));
     let selectedPointId = null;
+    let searchTerm = "";
 
     function pointById(id) {
       return points.find((point) => point.id === id);
+    }
+
+    function normalizeSearch(value) {
+      return String(value)
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+    }
+
+    function recommendationText(pointId) {
+      return (recommendations[pointId] || [])
+        .map((item) => `${item.by} ${item.note}`)
+        .join(" ");
+    }
+
+    function matchesSearch(value) {
+      if (!searchTerm) {
+        return true;
+      }
+      return normalizeSearch(value).includes(searchTerm);
+    }
+
+    function pointMatchesSearch(point) {
+      return matchesSearch([
+        point.id,
+        point.name,
+        point.day,
+        point.note,
+        categories[point.category].label,
+        recommendationText(point.id)
+      ].join(" "));
+    }
+
+    function roadMatchesSearch(segment) {
+      return matchesSearch([
+        segment.label,
+        segment.name,
+        segment.note,
+        categories[segment.category].label
+      ].join(" "));
     }
 
     function escapeHtml(value) {
@@ -1070,7 +1211,7 @@
 
     function markerIcon(point) {
       const color = categories[point.category].color;
-      const label = point.category === "hotspring" ? "♨" : point.category === "waterfall" ? "W" : point.category === "volcano" ? "V" : point.id;
+      const label = point.category === "hotspring" ? "♨" : point.id.startsWith("LK") ? "L" : point.category === "waterfall" ? "W" : point.category === "volcano" ? "V" : point.id;
       return L.divIcon({
         className: "",
         html: `<div class="marker" style="background:${color}">${label}</div>`,
@@ -1173,6 +1314,16 @@
         WF13: "Glymur",
         WF14: "Brúarfoss",
         WF15: "Háifoss",
+        LK1: "Þingvallavatn",
+        LK2: "Laugarvatn",
+        LK3: "Fjallsárlón",
+        LK4: "Jökulsárlón",
+        LK5: "Lagarfljót",
+        LK6: "Mývatn",
+        LK7: "Hvalvatn",
+        LK8: "Kleifarvatn",
+        LK9: "Langisjór",
+        LK10: "Þórisvatn",
         V1: "Fagradalsfjall",
         V2: "Kerið",
         V3: "Eldhraun",
@@ -1183,7 +1334,7 @@
         V8: "Snæfellsjökull",
         V9: "Saxhóll",
         V10: "Grábrók",
-        V11: "Eldfell"
+        V11: "Vestmannaeyjar"
       };
       return titles[point.id] || point.name.split("/")[0].trim();
     }
@@ -1345,6 +1496,9 @@
         if (!active.has(route.category)) {
           return;
         }
+        if (searchTerm && !routePoints.some(pointMatchesSearch)) {
+          return;
+        }
         const latLngs = routePoints.map((point) => [point.lat, point.lng]);
         L.polyline(latLngs, {
           color: route.color,
@@ -1356,6 +1510,9 @@
 
       roadSegments.forEach((segment) => {
         if (!active.has(segment.category)) {
+          return;
+        }
+        if (!roadMatchesSearch(segment)) {
           return;
         }
         const isFroad = segment.category === "froad";
@@ -1383,6 +1540,9 @@
 
       points.forEach((point) => {
         if (!active.has(point.category)) {
+          return;
+        }
+        if (!pointMatchesSearch(point)) {
           return;
         }
         const marker = L.marker([point.lat, point.lng], { icon: markerIcon(point) })
@@ -1466,8 +1626,8 @@
 
     function renderPointList() {
       const list = document.getElementById("pointList");
-      const visiblePoints = points.filter((point) => active.has(point.category));
-      const visibleRoads = roadSegments.filter((segment) => active.has(segment.category));
+      const visiblePoints = points.filter((point) => active.has(point.category) && pointMatchesSearch(point));
+      const visibleRoads = roadSegments.filter((segment) => active.has(segment.category) && roadMatchesSearch(segment));
       const pointItems = visiblePoints.map((point) => `
         <div class="item" role="button" tabindex="0" data-id="${point.id}">
           <span class="item-title">
@@ -1490,7 +1650,10 @@
           <span class="item-meta">${categories[segment.category].label} · ${segment.note}</span>
         </div>
       `);
-      list.innerHTML = pointItems.concat(roadItems).join("");
+      const items = pointItems.concat(roadItems);
+      list.innerHTML = items.length
+        ? items.join("")
+        : `<div class="empty-state">No planning points match the current search and layer filters.</div>`;
     }
 
     document.getElementById("pointList").addEventListener("click", (event) => {
@@ -1539,6 +1702,20 @@
       if (marker) {
         marker.openPopup();
       }
+    });
+
+    document.getElementById("pointSearch").addEventListener("input", (event) => {
+      searchTerm = normalizeSearch(event.target.value.trim());
+      drawMap();
+    });
+
+    document.getElementById("layerToggle").addEventListener("click", (event) => {
+      const toggle = event.currentTarget;
+      const filters = document.getElementById("filters");
+      const isExpanded = toggle.getAttribute("aria-expanded") === "true";
+      toggle.setAttribute("aria-expanded", String(!isExpanded));
+      toggle.setAttribute("aria-label", isExpanded ? "Expand map layers" : "Collapse map layers");
+      filters.hidden = isExpanded;
     });
 
     document.getElementById("pointList").addEventListener("keydown", (event) => {

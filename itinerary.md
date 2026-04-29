@@ -103,14 +103,15 @@ Do not force both the Westfjords and ambitious highland driving if weather or ti
 - Do not bathe in unmarked geothermal water. Some springs are scalding, unstable, or unsafe.
 - For highland hot springs such as Hveravellir or Landmannalaugar, confirm road openings, weather, and camper rental restrictions before committing.
 
-## Waterfall Planning Notes
+## Waterfall And Lake Planning Notes
 
-- The interactive map has a dedicated waterfalls layer.
-- Treat the waterfall layer as a menu of route-aware options, not a completion list.
+- The interactive map has a dedicated waterfalls / lakes layer.
+- Treat the water layer as a menu of route-aware options, not a completion list.
 - Easy route fits: Gullfoss, Seljalandsfoss, Gljúfrabúi, Skógafoss, Kvernufoss, Svartifoss, Dettifoss, Selfoss, Goðafoss, Kirkjufellsfoss, Hraunfossar/Barnafoss, and Dynjandi if the Westfjords branch happens.
+- Route-useful lakes and lagoons: Þingvallavatn, Laugarvatn, Fjallsárlón, Jökulsárlón, Lagarfljót, Lake Mývatn, Hvalvatn if doing Glymur, and Kleifarvatn on Reykjanes.
 - Hike/weather-dependent options: Glymur, Hengifoss/Litlanesfoss, Svartifoss, and longer canyon viewpoints around Jökulsárgljúfur.
-- Road-condition or highland-adjacent options: Hrafnabjargafoss, Aldeyjarfoss, Háifoss, and any falls reached by rough interior roads.
-- Waterfall days can become wet, slow, and crowded. Carry rain gear, protect cameras/phones, respect closed paths, and avoid getting too close to cliff edges or glacial river channels.
+- Road-condition or highland-adjacent options: Hrafnabjargafoss, Aldeyjarfoss, Háifoss, Langisjór, Þórisvatn, and any water stops reached by rough interior roads.
+- Waterfall and lake days can become wet, slow, windy, and crowded. Carry rain gear, protect cameras/phones, respect closed paths, and avoid getting too close to cliff edges, glacial river channels, ice edges, or unstable shorelines.
 
 ## Volcano Planning Notes
 
@@ -128,6 +129,10 @@ Do not force both the Westfjords and ambitious highland driving if weather or ti
 - Useful format: recommender, date if known, place, why they recommended it, and any caution or timing note.
 - Keep recommendations separate from confirmed plans. A recommendation should make a place easier to evaluate, not automatically make it part of the route.
 - Current map support: Planning Points with recommendation notes show a small `note` badge and display the details in the `?` info panel.
+
+Current recommendations:
+- Carla recommended Lake Mývatn as a place to keep on the itinerary radar.
+- Carla recommended Vestmannaeyjar / Westman Islands / Heimaey as a place to consider if ferry timing and trip pace make the branch feel easy.
 
 ## Itinerary Draft
 
@@ -155,9 +160,11 @@ Campground targets:
 
 Route:
 - Þingvellir
+- Þingvallavatn views
 - Geysir
 - Gullfoss
 - Kerið crater if the day still feels unhurried
+- Laugarvatn if Fontana or a gentler lake stop fits the day
 - Optional Friðheimar lunch in Reykholt
 - Anniversary dinner in Selfoss or Reykholt
 
@@ -228,6 +235,7 @@ Route options:
 - Breiðdalsvík
 - Seyðisfjörður
 - Egilsstaðir
+- Lagarfljót lake area
 - Hengifoss/Litlanesfoss, if based near Egilsstaðir and hiking weather is good
 
 Campground targets:
@@ -251,6 +259,7 @@ Possible stops:
 - Grjótagjá
 - Hverfjall/Hverfell crater
 - Krafla/Leirhnjúkur/Víti volcanic area
+- Lake Mývatn shoreline and pseudocrater views
 - Dimmuborgir
 - Mývatn Nature Baths
 
@@ -431,8 +440,10 @@ Notes:
 
 Possible final-flex options:
 - Reykjanes Peninsula
+- Kleifarvatn on Reykjanes if first/last-day weather is good
 - Reykjavík pools and food
 - Glymur hike
+- Hvalvatn if the Glymur hike becomes the final-flex choice
 - Brúarfoss or Háifoss only if the route, roads, and energy make them feel easy rather than greedy
 - Borgarfjörður
 - Guided Þórsmörk bus/superjeep day
