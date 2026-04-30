@@ -94,6 +94,14 @@ The default plan is a counterclockwise Ring Road loop with flexibility for:
 
 Do not force both the Westfjords and ambitious highland driving if weather or timing gets tight.
 
+## Campground Planning Notes
+
+- The interactive map now has an expanded campground layer with route-aware backup options, not just likely overnight targets.
+- Treat campground markers as candidates to verify, especially for opening dates, campervan facilities, electricity, shower/laundry access, payment method, and whether advance booking is advised.
+- Prioritize campground checks in sparse areas: Eastfjords, northeast/Diamond Circle, Tröllaskagi, Westfjords, Snæfellsnes, and the final southwest return.
+- In bad weather, popular sites can fill or become awkward; call ahead when a specific campground is important to the next day.
+- Keep at least one practical fallback in mind before driving into a remote branch late in the day.
+
 ## Hot Springs Planning Notes
 
 - The interactive map has a dedicated hot springs / pools layer.
@@ -150,6 +158,7 @@ Possible stops:
 - Brimketill
 - Reykjanes lighthouse
 - Reykjanes/Fagradalsfjall eruption area only if official access is open and gas/weather conditions are safe
+- Kvika Foot Bath / Grótta coastal walk if Reykjavík timing and weather make a low-key first-night sunset stop appealing
 - Blue Lagoon or Sky Lagoon, if desired
 
 Campground targets:
@@ -165,6 +174,7 @@ Route:
 - Gullfoss
 - Kerið crater if the day still feels unhurried
 - Laugarvatn if Fontana or a gentler lake stop fits the day
+- Gamla Laugin / Secret Lagoon in Flúðir if a relaxed geothermal soak fits the anniversary pace
 - Optional Friðheimar lunch in Reykholt
 - Anniversary dinner in Selfoss or Reykholt
 
@@ -442,6 +452,7 @@ Possible final-flex options:
 - Reykjanes Peninsula
 - Kleifarvatn on Reykjanes if first/last-day weather is good
 - Reykjavík pools and food
+- Kvika Foot Bath / Grótta coastal walk for a simple Reykjavík-area foot soak and sea view
 - Glymur hike
 - Hvalvatn if the Glymur hike becomes the final-flex choice
 - Brúarfoss or Háifoss only if the route, roads, and energy make them feel easy rather than greedy

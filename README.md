@@ -19,7 +19,7 @@ Planning notes, route ideas, and an interactive map for a flexible camper trip a
 
 The interactive map is meant to be a menu of options, not a strict turn-by-turn route. Current layers include:
 
-- Core route and campground areas
+- Core route and expanded campground areas
 - Food and special meal candidates
 - Hot springs and geothermal pools
 - Waterfalls and lakes
