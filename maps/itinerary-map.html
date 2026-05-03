@@ -205,10 +205,11 @@
     }
 
     aside {
+      position: relative;
       grid-area: sidebar;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 14px;
       height: 100vh;
       padding: 22px;
       overflow: auto;
@@ -216,6 +217,11 @@
       background: var(--panel);
       box-shadow: 0 10px 30px rgba(45, 40, 30, 0.12);
       z-index: 500;
+    }
+
+    .intro-section {
+      position: relative;
+      padding-right: 82px;
     }
 
     h1 {
@@ -246,46 +252,47 @@
       border-top: 1px solid var(--line);
     }
 
-    .panel-heading {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    .panel-heading h2 {
-      margin: 0;
-    }
-
-    .collapse-toggle {
+    .layers-toggle {
+      position: absolute;
+      top: 0;
+      right: 0;
       display: inline-grid;
       place-items: center;
-      width: 30px;
+      min-width: 64px;
       height: 30px;
       border: 1px solid var(--line);
-      border-radius: 50%;
+      border-radius: 999px;
       background: #fbfaf7;
       color: #334143;
       cursor: pointer;
       font: inherit;
-      font-size: 16px;
+      font-size: 12px;
       font-weight: 800;
       line-height: 1;
     }
 
-    .collapse-toggle:hover,
-    .collapse-toggle:focus-visible {
+    .layers-toggle:hover,
+    .layers-toggle:focus-visible,
+    .layers-toggle[aria-expanded="true"] {
       border-color: #9fb7af;
       outline: none;
       background: #eef5f2;
     }
 
-    .collapse-toggle[aria-expanded="false"] {
-      transform: rotate(-90deg);
+    .layers-popover {
+      position: absolute;
+      top: 38px;
+      right: 0;
+      z-index: 20;
+      width: min(280px, calc(100vw - 44px));
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 14px 36px rgba(45, 40, 30, 0.2);
     }
 
-    .collapsible[hidden] {
+    .layers-popover[hidden] {
       display: none;
     }
 
@@ -297,7 +304,7 @@
     .filter-actions {
       display: flex;
       gap: 8px;
-      margin-bottom: 10px;
+      margin-bottom: 6px;
     }
 
     .filter-action {
@@ -346,6 +353,137 @@
 
     .search-wrap {
       margin-bottom: 10px;
+    }
+
+    .date-controls {
+      --date-edge: calc(100% / 30);
+      display: grid;
+    }
+
+    .date-timeline {
+      position: relative;
+      height: 38px;
+    }
+
+    .date-strip {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(15, minmax(0, 1fr));
+      gap: 2px;
+      color: #6c7876;
+      font-size: 11px;
+      font-weight: 760;
+      text-align: center;
+    }
+
+    .date-strip span {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      min-width: 0;
+      height: 38px;
+      border-radius: 7px;
+    }
+
+    .date-strip span.in-window {
+      color: #243033;
+    }
+
+    .date-strip span.window-edge {
+      color: #ffffff;
+    }
+
+    .date-range-track {
+      position: absolute;
+      left: var(--date-edge);
+      right: var(--date-edge);
+      top: 50%;
+      z-index: 1;
+      height: 4px;
+      border-radius: 999px;
+      background: #d8d2c5;
+      transform: translateY(-50%);
+    }
+
+    .date-range-track span {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      border-radius: inherit;
+      background: var(--core);
+    }
+
+    .date-range {
+      position: absolute;
+      left: var(--date-edge);
+      top: 0;
+      width: calc(100% - (var(--date-edge) * 2));
+      height: 38px;
+      margin: 0;
+      appearance: none;
+      -webkit-appearance: none;
+      background: transparent;
+      pointer-events: none;
+    }
+
+    .date-range-start {
+      z-index: 3;
+    }
+
+    .date-range-end {
+      z-index: 2;
+    }
+
+    .date-range.is-active-handle {
+      z-index: 4;
+    }
+
+    .date-range:focus {
+      outline: none;
+    }
+
+    .date-range::-webkit-slider-runnable-track {
+      height: 4px;
+      background: transparent;
+    }
+
+    .date-range::-moz-range-track {
+      height: 4px;
+      background: transparent;
+    }
+
+    .date-range::-webkit-slider-thumb {
+      width: 20px;
+      height: 20px;
+      margin-top: -8px;
+      border: 3px solid #ffffff;
+      border-radius: 50%;
+      background: var(--core);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.24);
+      cursor: ew-resize;
+      pointer-events: auto;
+      -webkit-appearance: none;
+    }
+
+    .date-range::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border: 3px solid #ffffff;
+      border-radius: 50%;
+      background: var(--core);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.24);
+      cursor: ew-resize;
+      pointer-events: auto;
+    }
+
+    .date-range:focus-visible::-webkit-slider-thumb {
+      box-shadow: 0 0 0 4px rgba(19, 111, 99, 0.18), 0 4px 12px rgba(0, 0, 0, 0.24);
+    }
+
+    .date-range:focus-visible::-moz-range-thumb {
+      box-shadow: 0 0 0 4px rgba(19, 111, 99, 0.18), 0 4px 12px rgba(0, 0, 0, 0.24);
     }
 
     .search-input {
@@ -779,23 +917,29 @@
   </style>
 </head>
 <body>
-  <main class="layout">
+      <main class="layout">
     <aside>
-      <section>
-        <h1>Iceland Camper Map</h1>
+      <section class="intro-section">
+        <h1>Iceland Itenerary</h1>
         <p>Draft route for June 13-27 with optional branches and clickable planning points. Keep this as a flexible guide, not a hard schedule.</p>
-      </section>
-
-      <section class="panel">
-        <div class="panel-heading">
-          <h2>Map Layers</h2>
-          <button class="collapse-toggle" id="layerToggle" type="button" aria-expanded="true" aria-controls="filters" aria-label="Collapse map layers">⌄</button>
+        <button class="layers-toggle" id="layerToggle" type="button" aria-expanded="false" aria-controls="layersPopover">Layers</button>
+        <div class="layers-popover" id="layersPopover" hidden>
+          <div class="filters" id="filters"></div>
         </div>
-        <div class="filters collapsible" id="filters"></div>
       </section>
 
-      <section class="panel">
-        <h2>Planning Points</h2>
+      <section class="panel" aria-label="Trip window">
+        <div class="date-controls">
+          <div class="date-timeline">
+            <div class="date-strip" id="dateStrip"></div>
+            <div class="date-range-track"><span id="dateRangeFill"></span></div>
+            <input class="date-range date-range-start" id="dateStart" type="range" min="13" max="27" value="13" step="1" aria-label="First visible trip date">
+            <input class="date-range date-range-end" id="dateEnd" type="range" min="13" max="27" value="27" step="1" aria-label="Last visible trip date">
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" aria-label="Planning points">
         <div class="search-wrap">
           <input class="search-input" id="pointSearch" type="search" placeholder="Search planning points" autocomplete="off">
         </div>
@@ -866,6 +1010,8 @@
       { id: "AG", name: "Hveravellir", category: "highland", day: "Final flex only", lat: 64.8661, lng: -19.5578, note: "Kjölur/F35 highland option; check road status first." },
       { id: "AH", name: "Landmannalaugar", category: "highland", day: "Only if open/suitable", lat: 63.9910, lng: -19.0607, note: "Potential 4x4 highlight, but late-June access and route choice matter." },
       { id: "AI", name: "Road / weather checks", category: "safety", day: "Every evening", lat: 64.9631, lng: -19.0208, note: "Use umferdin.is, Safetravel, and Vedur before remote roads, highlands, or exposed drives." },
+      { id: "SK1", name: "Hólar in Hjaltadalur", category: "branch", day: "June 22/23 flex", lat: 65.7320, lng: -19.1111, note: "Beautiful historic site inland from Hofsós with Hólar Cathedral, old church history, mountain valley scenery, and a calm campground-area feel." },
+      { id: "SK2", name: "Drangey Island boat tour", category: "branch", day: "June 22/23 flex", lat: 65.7485, lng: -19.6484, note: "Boat tour from Sauðárkrókur marina to the sheer island in Skagafjörður: puffins, seabirds, saga stories, and hiking. Treat as a half-day/activity-booking decision." },
       { id: "CP1", name: "Reykjavík Campsite", category: "camp", day: "June 13 or 26", lat: 64.1460, lng: -21.8750, note: "Practical city campground near Laugardalur services. Good first/last night option; verify current booking/check-in details." },
       { id: "CP2", name: "Reykjanes / Sandgerði campground", category: "camp", day: "June 13 or 26", lat: 64.0370, lng: -22.7060, note: "Keflavík/Reykjanes-area fallback close to airport logistics; verify opening and facilities before relying on it." },
       { id: "CP3", name: "Selfoss campground", category: "camp", day: "June 14", lat: 63.9330, lng: -21.0020, note: "Useful anniversary-night base near Tryggvaskáli and South Coast launch point." },
@@ -909,7 +1055,7 @@
       { id: "HS10", name: "Mývatn Nature Baths", category: "hotspring", day: "June 20-21", lat: 65.6308, lng: -16.8477, note: "Best-fit solstice soak if based around Mývatn. Book/check hours closer to the day." },
       { id: "HS11", name: "GeoSea", category: "hotspring", day: "June 20-21", lat: 66.0528, lng: -17.3394, note: "Geothermal sea baths above Húsavík. Very strong solstice-evening candidate." },
       { id: "HS12", name: "Forest Lagoon", category: "hotspring", day: "June 22", lat: 65.6629, lng: -18.0489, note: "Akureyri-area geothermal forest spa. Good reset before heading west." },
-      { id: "HS13", name: "Grettislaug", category: "hotspring", day: "June 22/23", lat: 65.8820, lng: -19.7366, note: "Seaside hot pots near Sauðárkrókur. Nice if the northwest route lines up." },
+      { id: "HS13", name: "Grettislaug", category: "hotspring", day: "June 22/23", lat: 65.8820, lng: -19.7366, note: "Seaside hot pots at Reykir on Reykjaströnd, tied to Grettir's Saga and Drangey views. Gravel-road detour; check weather, road comfort, and opening/payment details before relying on it." },
       { id: "HS14", name: "Drangsnes Hot Pots", category: "hotspring", day: "June 23", lat: 65.6885, lng: -21.4484, note: "Simple seaside hot pots near the Westfjords entry. Excellent camper-trip energy." },
       { id: "HS15", name: "Hellulaug", category: "hotspring", day: "June 25", lat: 65.5776, lng: -23.1598, note: "Small seaside hot pot in the Westfjords. Verify current access and leave-no-trace expectations." },
       { id: "HS16", name: "Krossneslaug", category: "hotspring", day: "Westfjords stretch option", lat: 66.0591, lng: -21.5119, note: "Remote north Westfjords pool. Beautiful but a major detour from the current itinerary." },
@@ -980,8 +1126,17 @@
       HS11: [
         { by: "Trip planning", note: "Strong solstice-evening soak if Húsavík becomes the June 21 base." }
       ],
+      HS13: [
+        { by: "Trip planning", note: "Good Hofsós/Sauðárkrókur-area hot-pot option if the day has room for the Reykjaströnd gravel detour." }
+      ],
       HS14: [
         { by: "Trip planning", note: "Good camper-trip hot-pot energy near the Westfjords entry." }
+      ],
+      SK1: [
+        { by: "Trip planning", note: "Added as a beautiful history-and-landscape option near Hofsós rather than a fixed itinerary commitment." }
+      ],
+      SK2: [
+        { by: "Trip planning", note: "Added as a larger optional activity: excellent if puffins, saga history, and a half-day boat/hike fit the weather and pace." }
       ],
       HS18: [
         { by: "Trip planning", note: "Possible final-flex soak near Reykjavík if the trip wants a special ending without a long detour." }
@@ -1185,6 +1340,21 @@
     const roadLayer = L.layerGroup().addTo(map);
     const markers = new Map();
     const active = new Set(Object.keys(categories));
+    const tripDays = Array.from({ length: 15 }, (_, index) => 13 + index);
+    const roadDateRanges = {
+      "Route 1": [[13, 26]],
+      "862/864": [[19, 21]],
+      "85": [[20, 21]],
+      "82/76": [[22, 23]],
+      "60": [[23, 25]],
+      "54/56": [[23, 26]],
+      "F35": [[25, 26]],
+      "F347": [[25, 26]],
+      "F208/F224": [[25, 26]],
+      "F208 S": [[25, 26]],
+      "F249": [[15, 16]]
+    };
+    let dateWindow = { enabled: false, start: 13, end: 27 };
     let selectedPointId = null;
     let searchTerm = "";
 
@@ -1223,6 +1393,74 @@
       ].join(" "));
     }
 
+    function rangesOverlap(ranges, start, end) {
+      return ranges.some(([rangeStart, rangeEnd]) => rangeStart <= end && rangeEnd >= start);
+    }
+
+    function dateRangesForText(value) {
+      const text = String(value);
+      const ranges = [];
+      const rangePattern = /June\s+(\d{1,2})\s*[-–]\s*(\d{1,2})/gi;
+      const slashPattern = /June\s+(\d{1,2})\s*\/\s*(\d{1,2})/gi;
+      const singlePattern = /June\s+(\d{1,2})/gi;
+      const extraDayPattern = /(?:or|and)\s+(\d{1,2})\b/gi;
+      let match;
+
+      while ((match = rangePattern.exec(text)) !== null) {
+        ranges.push([Number(match[1]), Number(match[2])]);
+      }
+
+      while ((match = slashPattern.exec(text)) !== null) {
+        ranges.push([Number(match[1]), Number(match[2])]);
+      }
+
+      while ((match = singlePattern.exec(text)) !== null) {
+        ranges.push([Number(match[1]), Number(match[1])]);
+      }
+
+      while ((match = extraDayPattern.exec(text)) !== null) {
+        ranges.push([Number(match[1]), Number(match[1])]);
+      }
+
+      const lower = text.toLowerCase();
+      if (lower.includes("final flex")) {
+        ranges.push([25, 26]);
+      }
+      if (lower.includes("highland")) {
+        ranges.push([25, 26]);
+      }
+      if (lower.includes("south coast ferry")) {
+        ranges.push([15, 16]);
+      }
+      if (lower.includes("westfjords stretch")) {
+        ranges.push([23, 25]);
+      }
+      if (lower.includes("only if open")) {
+        ranges.push([25, 26]);
+      }
+
+      return ranges;
+    }
+
+    function pointDateRanges(point) {
+      if (!point._dateRanges) {
+        point._dateRanges = dateRangesForText(point.day);
+      }
+      return point._dateRanges;
+    }
+
+    function pointMatchesDateWindow(point) {
+      if (!dateWindow.enabled) {
+        return true;
+      }
+      const ranges = pointDateRanges(point);
+      return ranges.length > 0 && rangesOverlap(ranges, dateWindow.start, dateWindow.end);
+    }
+
+    function pointIsVisible(point) {
+      return active.has(point.category) && pointMatchesSearch(point) && pointMatchesDateWindow(point);
+    }
+
     function roadMatchesSearch(segment) {
       return matchesSearch([
         segment.label,
@@ -1230,6 +1468,18 @@
         segment.note,
         categories[segment.category].label
       ].join(" "));
+    }
+
+    function roadMatchesDateWindow(segment) {
+      if (!dateWindow.enabled) {
+        return true;
+      }
+      const ranges = roadDateRanges[segment.label] || [];
+      return ranges.length > 0 && rangesOverlap(ranges, dateWindow.start, dateWindow.end);
+    }
+
+    function roadIsVisible(segment) {
+      return active.has(segment.category) && roadMatchesSearch(segment) && roadMatchesDateWindow(segment);
     }
 
     function escapeHtml(value) {
@@ -1320,6 +1570,8 @@
         AF: "Kerlingarfjöll",
         AG: "Hveravellir",
         AH: "Landmannalaugar",
+        SK1: "Hólar",
+        SK2: "Drangey",
         CP1: "Reykjavík",
         CP2: "Sandgerði",
         CP3: "Selfoss (town)",
@@ -1563,20 +1815,45 @@
         if (searchTerm && !routePoints.some(pointMatchesSearch)) {
           return;
         }
-        const latLngs = routePoints.map((point) => [point.lat, point.lng]);
-        L.polyline(latLngs, {
-          color: route.color,
-          weight: route.label.includes("Core") ? 4 : 3,
-          opacity: route.label.includes("Core") ? 0.72 : 0.54,
-          dashArray: route.label.includes("Core") ? null : "7 9"
-        }).addTo(lineLayer);
+
+        const segments = [];
+        let currentSegment = [];
+        routePoints.forEach((point, index) => {
+          const nextPoint = routePoints[index + 1];
+          if (!dateWindow.enabled) {
+            currentSegment.push(point);
+            return;
+          }
+
+          if (nextPoint && (pointMatchesDateWindow(point) || pointMatchesDateWindow(nextPoint))) {
+            if (!currentSegment.length) {
+              currentSegment.push(point);
+            }
+            currentSegment.push(nextPoint);
+          } else if (currentSegment.length) {
+            segments.push(currentSegment);
+            currentSegment = [];
+          }
+        });
+        if (currentSegment.length) {
+          segments.push(currentSegment);
+        }
+
+        segments
+          .filter((segment) => segment.length > 1)
+          .forEach((segment) => {
+            const latLngs = segment.map((point) => [point.lat, point.lng]);
+            L.polyline(latLngs, {
+              color: route.color,
+              weight: route.label.includes("Core") ? 4 : 3,
+              opacity: route.label.includes("Core") ? 0.72 : 0.54,
+              dashArray: route.label.includes("Core") ? null : "7 9"
+            }).addTo(lineLayer);
+          });
       });
 
       roadSegments.forEach((segment) => {
-        if (!active.has(segment.category)) {
-          return;
-        }
-        if (!roadMatchesSearch(segment)) {
+        if (!roadIsVisible(segment)) {
           return;
         }
         const isFroad = segment.category === "froad";
@@ -1603,18 +1880,31 @@
       });
 
       points.forEach((point) => {
-        if (!active.has(point.category)) {
+        if (!pointIsVisible(point)) {
           return;
         }
-        if (!pointMatchesSearch(point)) {
-          return;
-        }
-        const marker = L.marker([point.lat, point.lng], { icon: markerIcon(point) })
+        const marker = L.marker([point.lat, point.lng], {
+          icon: markerIcon(point),
+          title: point.name,
+          alt: point.name
+        })
           .bindPopup(popupHtml(point));
         marker.on("click", () => {
           selectPoint(point.id, true);
         });
+        marker.on("dblclick", (event) => {
+          L.DomEvent.stop(event);
+          openPointDetail(point);
+        });
         marker.addTo(markerLayer);
+        const markerElement = marker.getElement();
+        if (markerElement) {
+          markerElement.addEventListener("dblclick", (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            openPointDetail(point);
+          });
+        }
         markers.set(point.id, marker);
       });
 
@@ -1622,6 +1912,27 @@
       if (selectedPointId) {
         selectPoint(selectedPointId, false);
       }
+    }
+
+    function visiblePointBounds() {
+      const visiblePoints = points.filter(pointIsVisible);
+      if (!visiblePoints.length) {
+        return null;
+      }
+      return L.latLngBounds(visiblePoints.map((point) => [point.lat, point.lng]));
+    }
+
+    function fitVisibleWindow() {
+      const pointBounds = visiblePointBounds();
+      if (!pointBounds) {
+        return;
+      }
+      map.invalidateSize();
+      map.fitBounds(pointBounds, {
+        maxZoom: 8,
+        paddingTopLeft: [46, 46],
+        paddingBottomRight: [46, 96]
+      });
     }
 
     function renderFilters() {
@@ -1676,6 +1987,66 @@
       `).join("");
     }
 
+    function renderDateControls() {
+      document.getElementById("dateStrip").innerHTML = tripDays
+        .map((day) => `<span data-day="${day}">${day}</span>`)
+        .join("");
+      updateDateRangeUi("start");
+    }
+
+    function updateDateRangeUi(activeHandle = "start") {
+      const startInput = document.getElementById("dateStart");
+      const endInput = document.getElementById("dateEnd");
+      const fill = document.getElementById("dateRangeFill");
+      const start = Number(startInput.value);
+      const end = Number(endInput.value);
+      const min = Number(startInput.min);
+      const max = Number(startInput.max);
+      const startPct = ((start - min) / (max - min)) * 100;
+      const endPct = ((end - min) / (max - min)) * 100;
+
+      fill.style.left = `${startPct}%`;
+      fill.style.right = `${100 - endPct}%`;
+      startInput.classList.toggle("is-active-handle", activeHandle === "start");
+      endInput.classList.toggle("is-active-handle", activeHandle === "end");
+      startInput.setAttribute("aria-valuetext", `June ${start}`);
+      endInput.setAttribute("aria-valuetext", `June ${end}`);
+
+      document.querySelectorAll("#dateStrip span").forEach((item) => {
+        const day = Number(item.dataset.day);
+        item.classList.toggle("in-window", day >= start && day <= end);
+        item.classList.toggle("window-edge", day === start || day === end);
+      });
+    }
+
+    function setDateWindowFromInputs(activeHandle) {
+      const startInput = document.getElementById("dateStart");
+      const endInput = document.getElementById("dateEnd");
+      let start = Number(startInput.value);
+      let end = Number(endInput.value);
+
+      if (activeHandle === "start" && start > end) {
+        end = start;
+      }
+      if (activeHandle === "end" && end < start) {
+        start = end;
+      }
+
+      startInput.value = String(start);
+      endInput.value = String(end);
+      dateWindow = start === 13 && end === 27
+        ? { enabled: false, start, end }
+        : { enabled: true, start, end };
+
+      updateDateRangeUi(activeHandle);
+      drawMap();
+      if (dateWindow.enabled) {
+        fitVisibleWindow();
+      } else {
+        fitIceland();
+      }
+    }
+
     function quickLinksForPoint(point) {
       if (point.id !== "AI") {
         return "";
@@ -1690,8 +2061,8 @@
 
     function renderPointList() {
       const list = document.getElementById("pointList");
-      const visiblePoints = points.filter((point) => active.has(point.category) && pointMatchesSearch(point));
-      const visibleRoads = roadSegments.filter((segment) => active.has(segment.category) && roadMatchesSearch(segment));
+      const visiblePoints = points.filter(pointIsVisible);
+      const visibleRoads = roadSegments.filter(roadIsVisible);
       const pointItems = visiblePoints.map((point) => `
         <div class="item" role="button" tabindex="0" data-id="${point.id}">
           <span class="item-title">
@@ -1717,7 +2088,7 @@
       const items = pointItems.concat(roadItems);
       list.innerHTML = items.length
         ? items.join("")
-        : `<div class="empty-state">No planning points match the current search and layer filters.</div>`;
+        : `<div class="empty-state">No planning points match the current search, layer, and trip-window filters.</div>`;
     }
 
     document.getElementById("pointList").addEventListener("click", (event) => {
@@ -1773,13 +2144,46 @@
       drawMap();
     });
 
+    document.getElementById("dateStart").addEventListener("input", () => {
+      setDateWindowFromInputs("start");
+    });
+
+    document.getElementById("dateEnd").addEventListener("input", () => {
+      setDateWindowFromInputs("end");
+    });
+
     document.getElementById("layerToggle").addEventListener("click", (event) => {
       const toggle = event.currentTarget;
-      const filters = document.getElementById("filters");
+      const popover = document.getElementById("layersPopover");
       const isExpanded = toggle.getAttribute("aria-expanded") === "true";
       toggle.setAttribute("aria-expanded", String(!isExpanded));
       toggle.setAttribute("aria-label", isExpanded ? "Expand map layers" : "Collapse map layers");
-      filters.hidden = isExpanded;
+      popover.hidden = isExpanded;
+    });
+
+    document.addEventListener("click", (event) => {
+      const toggle = document.getElementById("layerToggle");
+      const popover = document.getElementById("layersPopover");
+      if (popover.hidden || event.target.closest("#layerToggle") || event.target.closest("#layersPopover")) {
+        return;
+      }
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-label", "Expand map layers");
+      popover.hidden = true;
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") {
+        return;
+      }
+      const toggle = document.getElementById("layerToggle");
+      const popover = document.getElementById("layersPopover");
+      if (popover.hidden) {
+        return;
+      }
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-label", "Expand map layers");
+      popover.hidden = true;
     });
 
     document.getElementById("pointList").addEventListener("keydown", (event) => {
@@ -1800,7 +2204,33 @@
       }
     });
 
+    document.addEventListener("click", (event) => {
+      if (!event.target.closest(".map-wrap") || event.target.closest("#detailPanel")) {
+        return;
+      }
+      document.getElementById("detailPanel").classList.remove("open");
+    }, true);
+
+    document.addEventListener("dblclick", (event) => {
+      const markerElement = event.target.closest(".leaflet-marker-icon[title]");
+      if (!markerElement) {
+        return;
+      }
+      const point = points.find((candidate) => candidate.name === markerElement.getAttribute("title"));
+      if (!point) {
+        return;
+      }
+      event.preventDefault();
+      event.stopPropagation();
+      openPointDetail(point);
+    }, true);
+
+    map.on("preclick", () => {
+      document.getElementById("detailPanel").classList.remove("open");
+    });
+
     renderFilters();
+    renderDateControls();
     renderLegend();
     drawMap();
 

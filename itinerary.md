@@ -336,6 +336,11 @@ Campground targets:
 - Hofsós
 - Varmahlíð
 
+Optional Skagafjörður / Hofsós-area stops:
+- Hólar in Hjaltadalur: beautiful historic church and old episcopal site inland from Hofsós.
+- Drangey Island boat tour from Sauðárkrókur: puffins, seabirds, saga history, and a roughly half-day commitment if the schedule lines up.
+- Grettislaug: seaside hot pots near Reykir/Reykjaströnd; check road/weather comfort before committing to the gravel detour.
+
 Optional waterfall branch:
 - Hrafnabjargafoss and Aldeyjarfoss south of Goðafoss, only if road conditions, rental terms, and the day's pace support it.
 
