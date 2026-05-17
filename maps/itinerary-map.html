@@ -7,8 +7,9 @@
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIINfQfQbcw3E62fQbRXrIBhFHCOWPOdypI="
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
     crossorigin="">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23136f63'/%3E%3Cpath d='M12 43h40L39 21l-8 13-5-8z' fill='%23fff'/%3E%3C/svg%3E">
   <style>
     .leaflet-pane,
     .leaflet-tile,
@@ -252,10 +253,20 @@
       border-top: 1px solid var(--line);
     }
 
-    .layers-toggle {
+    .popover-controls {
       position: absolute;
       top: 0;
       right: 0;
+      display: grid;
+      gap: 8px;
+      justify-items: end;
+    }
+
+    .popover-control {
+      position: relative;
+    }
+
+    .popover-toggle {
       display: inline-grid;
       place-items: center;
       min-width: 64px;
@@ -271,15 +282,15 @@
       line-height: 1;
     }
 
-    .layers-toggle:hover,
-    .layers-toggle:focus-visible,
-    .layers-toggle[aria-expanded="true"] {
+    .popover-toggle:hover,
+    .popover-toggle:focus-visible,
+    .popover-toggle[aria-expanded="true"] {
       border-color: #9fb7af;
       outline: none;
       background: #eef5f2;
     }
 
-    .layers-popover {
+    .sidebar-popover {
       position: absolute;
       top: 38px;
       right: 0;
@@ -292,13 +303,51 @@
       box-shadow: 0 14px 36px rgba(45, 40, 30, 0.2);
     }
 
-    .layers-popover[hidden] {
+    .sidebar-popover[hidden] {
       display: none;
     }
 
     .filters {
       display: grid;
       gap: 9px;
+    }
+
+    .tool-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .tool-card {
+      display: grid;
+      gap: 4px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfaf7;
+    }
+
+    .tool-card span {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .tool-card a {
+      color: #2867a7;
+      font-size: 14px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .tool-card a:hover,
+    .tool-card a:focus-visible {
+      text-decoration: underline;
+    }
+
+    .tool-card p {
+      font-size: 12px;
+      line-height: 1.35;
     }
 
     .filter-actions {
@@ -677,6 +726,89 @@
       line-height: 1.42;
     }
 
+    .popup-amenities {
+      display: grid;
+      gap: 4px;
+      margin: 0 0 9px;
+      padding: 0;
+      list-style: none;
+      color: #303b3d;
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .popup-amenities li {
+      padding-left: 14px;
+      position: relative;
+    }
+
+    .popup-amenities li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #8ba19c;
+    }
+
+    .hookup-badge {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      margin: 0 0 8px;
+      padding: 4px 7px;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 850;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .hookup-confirmed {
+      background: #246b45;
+    }
+
+    .hookup-limited {
+      background: #93651f;
+    }
+
+    .hookup-verify {
+      background: #6d7476;
+    }
+
+    .booking-badge {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      margin: 0 0 8px;
+      padding: 4px 7px;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 850;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .booking-needed {
+      background: #b83232;
+    }
+
+    .booking-booked {
+      background: #207844;
+    }
+
+    .booking-recommended {
+      background: #f57c00;
+    }
+
+    .booking-check {
+      background: #59656a;
+    }
+
     .legend {
       position: absolute;
       right: 16px;
@@ -708,6 +840,19 @@
       background: var(--core);
     }
 
+    .legend-marker {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: inset 0 0 0 3px #b83232;
+    }
+
+    .legend-marker.booked {
+      background: #207844;
+      box-shadow: inset 0 0 0 3px #207844;
+    }
+
     .marker {
       display: grid;
       place-items: center;
@@ -719,6 +864,25 @@
       font-size: 12px;
       font-weight: 800;
       box-shadow: 0 5px 14px rgba(0, 0, 0, 0.26);
+    }
+
+    .marker.booking-needed {
+      border-color: #b83232;
+      border-width: 4px;
+      background-clip: padding-box;
+    }
+
+    .marker.booking-booked {
+      border-color: #207844;
+      border-width: 4px;
+      background: #207844 !important;
+      background-clip: padding-box;
+    }
+
+    .marker.booking-recommended {
+      border-color: #f57c00;
+      border-width: 4px;
+      background-clip: padding-box;
     }
 
     .road-label {
@@ -922,9 +1086,19 @@
       <section class="intro-section">
         <h1>Iceland Itenerary</h1>
         <p>Draft route for June 13-27 with optional branches and clickable planning points. Keep this as a flexible guide, not a hard schedule.</p>
-        <button class="layers-toggle" id="layerToggle" type="button" aria-expanded="false" aria-controls="layersPopover">Layers</button>
-        <div class="layers-popover" id="layersPopover" hidden>
-          <div class="filters" id="filters"></div>
+        <div class="popover-controls">
+          <div class="popover-control">
+            <button class="popover-toggle" id="layerToggle" type="button" aria-expanded="false" aria-controls="layersPopover">Layers</button>
+            <div class="sidebar-popover" id="layersPopover" hidden>
+              <div class="filters" id="filters"></div>
+            </div>
+          </div>
+          <div class="popover-control">
+            <button class="popover-toggle" id="toolsToggle" type="button" aria-expanded="false" aria-controls="toolsPopover">Tools</button>
+            <div class="sidebar-popover" id="toolsPopover" hidden>
+              <div class="tool-list" id="tripTools"></div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -971,12 +1145,14 @@
       volcano: { label: "Volcanoes / lava fields", color: "#8a3b1f" },
       road: { label: "Named roads", color: "#455a64" },
       froad: { label: "F-roads / highland roads", color: "#c47a2c" },
-      safety: { label: "Safety / live checks", color: "#b83232" }
+      safety: { label: "Safety / live checks", color: "#b83232" },
+      logistics: { label: "Bookings / logistics", color: "#5c6670" },
+      lodging: { label: "Hotel / final night", color: "#6f4e9b" }
     };
 
     const points = [
-      { id: "A", name: "Keflavík Airport", category: "core", day: "June 13 / June 27", lat: 63.9850, lng: -22.6056, note: "Arrival, camper pickup logistics, and final departure area." },
-      { id: "B", name: "Reykjavík", category: "core", day: "June 13 / June 26", lat: 64.1466, lng: -21.9426, note: "Easy first or last night, supplies, pools, food, and backup weather day." },
+      { id: "A", name: "Keflavík Airport", category: "core", day: "June 13 / June 27", lat: 63.9850, lng: -22.6056, note: "Arrival airport and final departure area. June 13 uses the free Flybus option from KEF toward Cozy Campers before Blue Lagoon. June 27 needs hotel-to-airport transport after the camper has been returned." },
+      { id: "B", name: "Reykjavík", category: "core", day: "June 13 / June 26", lat: 64.1466, lng: -21.9426, note: "Easy first-day supplies, pools, food, and backup weather day. Final night can be here only if airport transport is simple for June 27." },
       { id: "C", name: "Þingvellir", category: "core", day: "June 14", lat: 64.2559, lng: -21.1295, note: "Golden Circle start for the anniversary day." },
       { id: "D", name: "Geysir", category: "core", day: "June 14", lat: 64.3137, lng: -20.3000, note: "Classic Golden Circle stop; keep timing gentle." },
       { id: "E", name: "Gullfoss", category: "waterfall", day: "June 14", lat: 64.3271, lng: -20.1199, note: "Golden Circle waterfall and anniversary-day highlight before meal plans." },
@@ -1006,14 +1182,16 @@
       { id: "AC", name: "Kirkjufell / Grundarfjörður", category: "branch", day: "June 24", lat: 64.9262, lng: -23.3098, note: "Snæfellsnes scenic base and campground target." },
       { id: "AD", name: "Snæfellsjökull / Arnarstapi", category: "branch", day: "June 25", lat: 64.7706, lng: -23.6218, note: "Snæfellsnes coast, lava fields, cliffs, and national park area." },
       { id: "AE", name: "Borgarnes / Borgarfjörður", category: "camp", day: "June 25/26", lat: 64.5383, lng: -21.9206, note: "Return-to-southwest buffer with Hraunfossar, Barnafoss, and Húsafell nearby." },
-      { id: "AF", name: "Kerlingarfjöll", category: "highland", day: "Final flex only", lat: 64.6834, lng: -19.2997, note: "Possible highland bonus if F-roads, weather, and rental terms all line up." },
-      { id: "AG", name: "Hveravellir", category: "highland", day: "Final flex only", lat: 64.8661, lng: -19.5578, note: "Kjölur/F35 highland option; check road status first." },
-      { id: "AH", name: "Landmannalaugar", category: "highland", day: "Only if open/suitable", lat: 63.9910, lng: -19.0607, note: "Potential 4x4 highlight, but late-June access and route choice matter." },
+      { id: "AF", name: "Kerlingarfjöll", category: "highland", day: "Final flex only", lat: 64.6834, lng: -19.2997, note: "Possible 4x4 camper bonus if F-roads, weather, and the actual rental company's terms all line up." },
+      { id: "AG", name: "Hveravellir", category: "highland", day: "Final flex only", lat: 64.8661, lng: -19.5578, note: "Kjölur/F35 highland option; check road status and the actual rental company's permission first." },
+      { id: "AH", name: "Landmannalaugar", category: "highland", day: "Only if open/suitable", lat: 63.9910, lng: -19.0607, note: "Potential 4x4 highlight, but late-June access, route choice, river crossings, and the actual rental company's permission matter." },
       { id: "AI", name: "Road / weather checks", category: "safety", day: "Every evening", lat: 64.9631, lng: -19.0208, note: "Use umferdin.is, Safetravel, and Vedur before remote roads, highlands, or exposed drives." },
+      { id: "LOG1", name: "Cozy Campers pickup / drop-off", category: "logistics", day: "June 13 / June 26", lat: 64.1055, lng: -21.9095, note: "Order 8PAM4V: Cozy Campers BUDGET - The Highlander I. Pickup Saturday June 13 at 12:00 with free Flybus option from KEF. Drop off Friday June 26 at 11:30. Group size 2, 13 rental days. Confirm permitted F-roads, live road status requirements, river crossing rules, and insurance exclusions." },
+      { id: "HOT1", name: "Final-night hotel / KEF transfer", category: "lodging", day: "June 26-27", lat: 63.9982, lng: -22.5560, note: "Hotel needed after Cozy Campers drop-off on Friday June 26, with reliable transport to KEF before the Saturday June 27 flight. Airport-area hotel is simplest; Reykjavík/Kópavogur works only if transfer timing is easy." },
       { id: "SK1", name: "Hólar in Hjaltadalur", category: "branch", day: "June 22/23 flex", lat: 65.7320, lng: -19.1111, note: "Beautiful historic site inland from Hofsós with Hólar Cathedral, old church history, mountain valley scenery, and a calm campground-area feel." },
       { id: "SK2", name: "Drangey Island boat tour", category: "branch", day: "June 22/23 flex", lat: 65.7485, lng: -19.6484, note: "Boat tour from Sauðárkrókur marina to the sheer island in Skagafjörður: puffins, seabirds, saga stories, and hiking. Treat as a half-day/activity-booking decision." },
-      { id: "CP1", name: "Reykjavík Campsite", category: "camp", day: "June 13 or 26", lat: 64.1460, lng: -21.8750, note: "Practical city campground near Laugardalur services. Good first/last night option; verify current booking/check-in details." },
-      { id: "CP2", name: "Reykjanes / Sandgerði campground", category: "camp", day: "June 13 or 26", lat: 64.0370, lng: -22.7060, note: "Keflavík/Reykjanes-area fallback close to airport logistics; verify opening and facilities before relying on it." },
+      { id: "CP1", name: "Reykjavík Campsite", category: "camp", day: "June 13", lat: 64.1460, lng: -21.8750, note: "Practical first-night campground near Laugardalur services if the arrival day drifts toward Reykjavík errands; verify current booking/check-in details." },
+      { id: "CP2", name: "Reykjanes / Sandgerði campground", category: "camp", day: "June 13", lat: 64.0370, lng: -22.7060, note: "Keflavík/Reykjanes-area first-night fallback close to airport logistics; verify opening and facilities before relying on it." },
       { id: "CP3", name: "Selfoss campground", category: "camp", day: "June 14", lat: 63.9330, lng: -21.0020, note: "Useful anniversary-night base near Tryggvaskáli and South Coast launch point." },
       { id: "CP4", name: "Flúðir campground", category: "camp", day: "June 14", lat: 64.1340, lng: -20.3200, note: "Golden Circle-area overnight option near Secret Lagoon/Hrunalaug; verify opening and payment setup." },
       { id: "CP5", name: "Skjól / Geysir area campground", category: "camp", day: "June 14", lat: 64.3090, lng: -20.2210, note: "Golden Circle fallback near Geysir/Gullfoss if the day ends farther east than Selfoss." },
@@ -1021,13 +1199,13 @@
       { id: "CP7", name: "Skaftafell campground", category: "camp", day: "June 16", lat: 64.0165, lng: -16.9660, note: "National park campground candidate for hikes and glacier-area timing; verify availability and rules." },
       { id: "CP8", name: "Djúpivogur campground", category: "camp", day: "June 18", lat: 64.6570, lng: -14.2860, note: "Eastfjords pacing option between Höfn and Egilsstaðir if the coast deserves more time." },
       { id: "CP9", name: "Seyðisfjörður campground", category: "camp", day: "June 18", lat: 65.2600, lng: -14.0080, note: "Fjord-town overnight option if weather makes Seyðisfjörður the right East Iceland base." },
-      { id: "CP10", name: "Möðrudalur / Fjalladýrð campground", category: "camp", day: "June 19", lat: 65.3740, lng: -15.8830, note: "Interior/Ring Road option between Egilsstaðir and Mývatn; useful if Dettifoss/Mývatn timing shifts." },
-      { id: "CP11", name: "Mývatn / Bjarg campground", category: "camp", day: "June 20-21", lat: 65.6420, lng: -16.9130, note: "Lake Mývatn campground candidate for the solstice base; verify midges, facilities, and booking/check-in details." },
-      { id: "CP12", name: "Húsavík campground", category: "camp", day: "June 20-21", lat: 66.0450, lng: -17.3400, note: "Coastal solstice base candidate near harbor, whale watching, and GeoSea." },
-      { id: "CP13", name: "Ásbyrgi campground", category: "camp", day: "June 20-21", lat: 66.0170, lng: -16.5050, note: "Quiet solstice-base option in/near the canyon area; verify current national park camping rules." },
-      { id: "CP14", name: "Hamrar / Akureyri campground", category: "camp", day: "June 22", lat: 65.6520, lng: -18.1080, note: "Akureyri-area reset campground with town services nearby." },
-      { id: "CP15", name: "Dalvík campground", category: "camp", day: "June 22", lat: 65.9700, lng: -18.5290, note: "Tröllaskagi pacing option if the northern coastal route wants a shorter day." },
-      { id: "CP16", name: "Hofsós campground", category: "camp", day: "June 22", lat: 65.8980, lng: -19.4130, note: "Northwest option near the famous pool if the day continues past Siglufjörður." },
+      { id: "CP10", name: "Möðrudalur / Fjalladýrð campground", category: "camp", day: "June 19", lat: 65.3740, lng: -15.8830, note: "Interior/Ring Road option between Egilsstaðir and Mývatn; useful if Dettifoss/Mývatn timing shifts. Listings include electricity, but confirm opening and availability because it is remote." },
+      { id: "CP11", name: "Mývatn / Bjarg campground", category: "camp", day: "June 20-21", lat: 65.6420, lng: -16.9130, note: "Scenic Lake Mývatn campground candidate. Reported electric camper spots are limited, so confirm a hookup before relying on this for Kelly's CPAP." },
+      { id: "CP12", name: "Húsavík campground", category: "camp", day: "June 20-21", lat: 66.0450, lng: -17.3400, note: "Coastal solstice base candidate near harbor, whale watching, and GeoSea. Visit Húsavík lists electrical outlets on the lower campervan site." },
+      { id: "CP13", name: "Ásbyrgi campground", category: "camp", day: "June 20-21", lat: 66.0170, lng: -16.5050, note: "Quiet solstice-base option in/near the canyon area. Visit North Iceland lists electrical outlets; still verify national park rules and hookup availability." },
+      { id: "CP14", name: "Hamrar / Akureyri campground", category: "camp", day: "June 22", lat: 65.6520, lng: -18.1080, note: "Akureyri-area reset campground with town services nearby. Official site lists about 250 electrical connections; strong CPAP-primary option." },
+      { id: "CP15", name: "Dalvík campground", category: "camp", day: "June 22", lat: 65.9700, lng: -18.5290, note: "Tröllaskagi pacing option if the northern coastal route wants a shorter day. Visit North Iceland lists electricity and camper services." },
+      { id: "CP16", name: "Hofsós campground", category: "camp", day: "June 22", lat: 65.8980, lng: -19.4130, note: "Northwest option near the famous pool if the day continues past Siglufjörður. Visit North Iceland lists electricity, toilets, hot/cold water, and toilet emptying." },
       { id: "CP17", name: "Hvammstangi campground", category: "camp", day: "June 23", lat: 65.3970, lng: -20.9420, note: "Useful decision-point campground before choosing Westfjords vs Snæfellsnes/West Iceland." },
       { id: "CP18", name: "Hólmavík campground", category: "camp", day: "June 23", lat: 65.7070, lng: -21.6830, note: "Westfjords entry campground near town services; good if the branch starts conservatively." },
       { id: "CP19", name: "Drangsnes campground", category: "camp", day: "June 23", lat: 65.6890, lng: -21.4480, note: "Westfjords entry option near seaside hot pots; verify current opening and services." },
@@ -1041,9 +1219,18 @@
       { id: "CP27", name: "Grundarfjörður campground", category: "camp", day: "June 24", lat: 64.9240, lng: -23.2600, note: "Snæfellsnes base near Kirkjufell and Kirkjufellsfoss." },
       { id: "CP28", name: "Ólafsvík / Hellissandur campground", category: "camp", day: "June 24/25", lat: 64.8940, lng: -23.7070, note: "North Snæfellsnes overnight option near the national park edge; verify which local campground best fits the day." },
       { id: "CP29", name: "Arnarstapi campground", category: "camp", day: "June 25", lat: 64.7660, lng: -23.6220, note: "South Snæfellsnes campground candidate near cliffs and coastal walks; confirm protected-area camping rules." },
-      { id: "CP30", name: "Akranes campground", category: "camp", day: "June 26", lat: 64.3190, lng: -22.0740, note: "Final-night southwest fallback between Borgarnes and Reykjavík/Keflavík." },
+      { id: "CP30", name: "Akranes campground", category: "camp", day: "June 25", lat: 64.3190, lng: -22.0740, note: "Late-trip southwest fallback between Borgarnes and Reykjavík. Not a final-night target because the camper returns June 26 at 11:30." },
       { id: "CP31", name: "Húsafell campground", category: "camp", day: "June 25/26", lat: 64.6990, lng: -20.8670, note: "Borgarfjörður inland base for Hraunfossar, Krauma, canyon baths, or a relaxed return buffer." },
-      { id: "HS1", name: "Blue Lagoon", category: "hotspring", day: "June 13 or 26", lat: 63.8804, lng: -22.4495, note: "Famous Reykjanes geothermal spa. Useful arrival/departure option; usually requires booking and is pricier." },
+      { id: "CP32", name: "Vogar / Mývatn campground", category: "camp", day: "June 19-21", lat: 65.6030, lng: -16.9170, note: "CPAP-primary Mývatn option. Vogar advertises campervan/motorhome electric hook-ups, indoor kitchen/dining, showers, Wi-Fi, water refill, and black-water emptying." },
+      { id: "CP33", name: "Heiðarbær campground", category: "camp", day: "June 19-21", lat: 65.8887, lng: -17.3198, note: "Practical middle-position campground between Húsavík and Mývatn on road 87. NAT lists electricity, showers, laundry, waste disposal, and pool services." },
+      { id: "CP34", name: "Camping 66.12 North", category: "camp", day: "June 20-21", lat: 66.2001, lng: -17.1039, note: "Quiet north-coast solstice candidate about 20 km north of Húsavík. Visit Húsavík lists electrical outlets, kitchen, hot showers, laundry, and year-round opening; check wind." },
+      { id: "CP35", name: "Vaglaskógur campsite", category: "camp", day: "June 21-22", lat: 65.7069, lng: -17.8906, note: "Forested option east of Akureyri. Visit North Iceland lists electricity fee and adapter availability; choose an electric area, not a no-hookup section." },
+      { id: "CP36", name: "Sauðárkrókur campground", category: "camp", day: "June 22/23", lat: 65.7418, lng: -19.6465, note: "Skagafjörður town option with electricity, showers, toilets, and mobile-home waste disposal listed by Visit North Iceland." },
+      { id: "CP37", name: "Kópasker campground", category: "camp", day: "Arctic Coast flex", lat: 66.3012, lng: -16.4429, note: "Remote Arctic Coast / Diamond Circle fallback. Visit North Iceland lists electricity and basic service house; verify same day before a CPAP-dependent night." },
+      { id: "CP38", name: "Bakkafjörður campground", category: "camp", day: "Arctic Coast flex", lat: 66.0367, lng: -14.8012, note: "Very remote Arctic Coast Way option. Visit North Iceland says electricity is available for campers and bathing is nearby; verify opening/services before committing." },
+      { id: "CP39", name: "Gata Free Campsite", category: "camp", day: "June 13", lat: 63.8287, lng: -21.7057, note: "Free/donation campsite near Strandarkirkja/Selvogur and a practical first-night target after Blue Lagoon if you are comfortable with the extra drive. Treat as a designated campsite, not wild camping; confirm current opening, campervan access, donation/payment norms, and electricity before relying on it for CPAP." },
+      { id: "CP40", name: "Þorlákshöfn Campsite", category: "camp", day: "June 13 backup", lat: 63.8526, lng: -21.3801, note: "Best first-night powered backup if Gata does not work for CPAP. It is east of Gata, keeps the trip aimed toward the next day's Golden Circle start, and listings show electricity access; confirm powered spot, late arrival/payment, and current opening before relying on it." },
+      { id: "HS1", name: "Blue Lagoon", category: "hotspring", day: "June 13 at 18:00", lat: 63.8804, lng: -22.4495, note: "Booked arrival-day soak for 18:00 after Cozy Campers pickup, food shopping, and an early meal. Check Reykjanes volcanic/seismic notices before going." },
       { id: "HS2", name: "Sky Lagoon", category: "hotspring", day: "June 13 or 26", lat: 64.1247, lng: -21.9293, note: "Oceanfront geothermal spa near Reykjavík. Good first/last night option if you want polished but not a big detour." },
       { id: "HS3", name: "Laugarvatn Fontana", category: "hotspring", day: "June 14", lat: 64.2142, lng: -20.7316, note: "Golden Circle geothermal baths and steam rooms. Easy anniversary-day soak if timing works." },
       { id: "HS4", name: "Gamla Laugin / Secret Lagoon", category: "hotspring", day: "June 14", lat: 64.1377, lng: -20.3097, note: "Relaxed old geothermal pool at Flúðir. Strong fit for the anniversary route or a gentle Golden Circle soak." },
@@ -1080,6 +1267,11 @@
       { id: "WF13", name: "Glymur", category: "waterfall", day: "June 26 final flex", lat: 64.3853, lng: -21.2519, note: "Tall waterfall hike in Hvalfjörður; only choose it if weather, river/trail conditions, and timing are comfortable." },
       { id: "WF14", name: "Brúarfoss", category: "waterfall", day: "June 14 or final flex", lat: 64.2644, lng: -20.5158, note: "Blue-water Golden Circle add-on; good if the anniversary day has spare time without feeling rushed." },
       { id: "WF15", name: "Háifoss", category: "waterfall", day: "Highland-adjacent flex", lat: 64.2075, lng: -19.6866, note: "Dramatic highland-edge waterfall; road conditions and camper rental comfort decide whether it belongs." },
+      { id: "WF16", name: "Faxi / Faxafoss", category: "waterfall", day: "June 14", lat: 64.2254, lng: -20.3372, note: "Wide, gentle Golden Circle waterfall on the Tungufljót. Easy optional add-on near Geysir/Reykholt if the anniversary day still has room." },
+      { id: "WF17", name: "Þórufoss", category: "waterfall", day: "June 14 flex", lat: 64.2603, lng: -21.3696, note: "Waterfall on the Laxá í Kjós northwest of Þingvellir. Treat as a quieter western Golden Circle flex, not a must-do." },
+      { id: "BR1", name: "Fjaðrárgljúfur", category: "branch", day: "June 16", lat: 63.7714, lng: -18.1718, note: "Dramatic canyon near Kirkjubæjarklaustur. Check current access/closures, stay on marked paths, and expect a short gravel-road detour." },
+      { id: "BR2", name: "Dyrhólaey puffin viewing", category: "branch", day: "June 15", lat: 63.3984, lng: -19.1267, note: "Accessible South Coast puffin area in season, especially around Dyrhólaey. Respect nesting closures, ropes, wind, and cliff edges." },
+      { id: "BR3", name: "Loftsalahellir", category: "branch", day: "June 15", lat: 63.4220, lng: -19.1520, note: "Small cave/viewpoint above the Dyrhólaey road with a framed view toward Dyrhólaey and Reynisfjara. Short muddy climb; best if it does not crowd the South Coast day." },
       { id: "LK1", name: "Þingvallavatn", category: "waterfall", day: "June 14", lat: 64.1786, lng: -21.1000, note: "Large rift-valley lake at Þingvellir. Good scenic context for the Golden Circle start." },
       { id: "LK2", name: "Laugarvatn", category: "waterfall", day: "June 14", lat: 64.2190, lng: -20.7270, note: "Lake and village between Þingvellir and Geysir, useful if pairing the day with Fontana or a gentler anniversary pace." },
       { id: "LK3", name: "Fjallsárlón", category: "waterfall", day: "June 17", lat: 64.0156, lng: -16.3850, note: "Smaller glacier lagoon near Jökulsárlón. Often a quieter companion stop if timing and weather are good." },
@@ -1340,6 +1532,186 @@
     const roadLayer = L.layerGroup().addTo(map);
     const markers = new Map();
     const active = new Set(Object.keys(categories));
+    const hookupStatuses = {
+      L: { level: "confirmed", label: "Hookups confirmed", detail: "Vík Camping lists electricity boards for camper/caravan pitches." },
+      M: { level: "limited", label: "Limited hookups", detail: "Kirkjubær II has powered spots, but they are first-come; arrive earlier if CPAP power is essential." },
+      P: { level: "confirmed", label: "Hookups confirmed", detail: "Höfn lists specific mobile-home spots with good access to electricity." },
+      R: { level: "confirmed", label: "Hookups confirmed", detail: "Camp Egilsstaðir lists paid 24-hour electricity and year-round facilities." },
+      AE: { level: "confirmed", label: "Hookups confirmed", detail: "Borgarnes/Granastaðir lists electrical outlets/electricity for campers." },
+      CP1: { level: "confirmed", label: "Hookups confirmed", detail: "Reykjavík Eco-Campsite sells camper pitches with 16A electricity." },
+      CP2: { level: "confirmed", label: "Hookups confirmed", detail: "Sandgerði/iStay listings include electricity, showers, laundry, and waste disposal." },
+      CP3: { level: "confirmed", label: "Hookups confirmed", detail: "Gesthús Selfoss lists electric hook-ups for RV/camper pitches." },
+      CP4: { level: "confirmed", label: "Hookups confirmed", detail: "Flúðir listings include electricity; available amenity details vary by source." },
+      CP5: { level: "limited", label: "Limited hookups", detail: "Skjól lists 17 electric stations; good option, but call if CPAP is critical." },
+      CP6: { level: "confirmed", label: "Hookups confirmed", detail: "Skógar campsite listings include electricity access." },
+      CP7: { level: "confirmed", label: "Hookups confirmed", detail: "Skaftafell campground lists camper/trailer electricity and 100 electrical outlets." },
+      CP8: { level: "confirmed", label: "Hookups confirmed", detail: "Djúpivogur/Hotel Framtíð lists electricity at the campsite." },
+      CP9: { level: "confirmed", label: "Hookups confirmed", detail: "Seyðisfjörður campsite listings include electricity access." },
+      CP10: { level: "confirmed", label: "Hookups confirmed", detail: "Möðrudalur/Fjalladýrð campsite listings include electricity hookups." },
+      CP11: { level: "limited", label: "Limited hookups", detail: "Bjarg is reported to have limited electric camper spots; confirm a hookup." },
+      CP12: { level: "confirmed", label: "Hookups confirmed", detail: "Húsavík lists electrical outlets on the lower campervan site." },
+      CP13: { level: "confirmed", label: "Hookups confirmed", detail: "Ásbyrgi lists electrical outlets on site." },
+      CP14: { level: "confirmed", label: "Hookups confirmed", detail: "Hamrar lists about 250 electrical connections." },
+      CP15: { level: "confirmed", label: "Hookups confirmed", detail: "Dalvík lists electricity and camper services." },
+      CP16: { level: "confirmed", label: "Hookups confirmed", detail: "Hofsós lists electricity and camper toilet emptying." },
+      CP17: { level: "confirmed", label: "Hookups confirmed", detail: "Hvammstangi/Kirkjuhvammur lists electric hookups for campervans/caravans." },
+      CP18: { level: "confirmed", label: "Hookups confirmed", detail: "Hólmavík lists electricity for campers and motorhomes." },
+      CP19: { level: "confirmed", label: "Hookups confirmed", detail: "Drangsnes lists electricity, showers, and laundry." },
+      CP20: { level: "confirmed", label: "Hookups confirmed", detail: "Tungudalur/Ísafjörður lists good access to electricity for campers/caravans." },
+      CP21: { level: "confirmed", label: "Hookups confirmed", detail: "Súðavík lists link boxes/3-pin links; treat as confirmed but verify exact hookup style." },
+      CP22: { level: "confirmed", label: "Hookups confirmed", detail: "Þingeyri is listed with electricity, kitchen, showers, and laundry." },
+      CP23: { level: "confirmed", label: "Hookups confirmed", detail: "Tálknafjörður listings include electricity hookups and sewage disposal." },
+      CP24: { level: "confirmed", label: "Hookups confirmed", detail: "Patreksfjörður listings include electricity, cooking facilities, laundry, and waste disposal." },
+      CP25: { level: "confirmed", label: "Hookups confirmed", detail: "Flókalundur lists access to electricity and a facility hut." },
+      CP26: { level: "confirmed", label: "Hookups confirmed", detail: "Stykkishólmur lists electricity boards around the campsite." },
+      CP27: { level: "confirmed", label: "Hookups confirmed", detail: "Grundarfjörður listings include electricity and water; showers are via the nearby pool." },
+      CP28: { level: "confirmed", label: "Hookups confirmed", detail: "Ólafsvík/Hellissandur listings include electricity, toilets, showers, and kitchen facilities." },
+      CP29: { level: "confirmed", label: "Hookups confirmed", detail: "Arnarstapi lists electricity, toilets, and paid showers." },
+      CP30: { level: "confirmed", label: "Hookups confirmed", detail: "Akranes lists campsite electricity, showers, laundry, and barbecue/dining facilities." },
+      CP31: { level: "confirmed", label: "Hookups confirmed", detail: "Húsafell lists about 70 camping spots with electrical hookups." },
+      CP32: { level: "confirmed", label: "Hookups confirmed", detail: "Vogar advertises campervan/motorhome electric hook-ups." },
+      CP33: { level: "confirmed", label: "Hookups confirmed", detail: "Heiðarbær is listed with electricity." },
+      CP34: { level: "confirmed", label: "Hookups confirmed", detail: "Camping 66.12 North lists electrical outlets." },
+      CP35: { level: "confirmed", label: "Hookups confirmed", detail: "Vaglaskógur lists electricity, with some areas better than others." },
+      CP36: { level: "confirmed", label: "Hookups confirmed", detail: "Sauðárkrókur lists electricity and mobile-home waste disposal." },
+      CP37: { level: "confirmed", label: "Hookups confirmed", detail: "Kópasker lists electricity, but verify same day because it is remote." },
+      CP38: { level: "confirmed", label: "Hookups confirmed", detail: "Bakkafjörður says electricity is available for campers; verify same day." },
+      CP40: { level: "confirmed", label: "Hookups confirmed", detail: "Þorlákshöfn listings show electricity access; confirm a powered pitch and late-arrival/payment details before relying on it for CPAP." }
+    };
+    const campAmenities = {
+      L: ["Power: electricity boards for camper/caravan pitches", "Showers/restrooms", "Wi-Fi", "Laundry", "Dining/cooking facilities reported by listings", "Car-toilet emptying"],
+      M: ["Power: powered pitches available first-come", "Showers/restrooms", "Kitchen and dining room", "Laundry", "Charging for small electronics in service house"],
+      P: ["Power: specific mobile-home spots with electricity", "Showers/restrooms", "Cooking facilities", "Wi-Fi", "Laundry/washing facilities", "Waste tank discharge"],
+      R: ["Power: paid 24-hour electricity", "Showers/restrooms open 24/7", "Indoor and outdoor kitchen/common room", "Laundry", "Free Wi-Fi", "Online booking important in high season"],
+      AE: ["Power: electrical outlets/electricity", "WC and water", "BBQ", "Wi-Fi", "Waste tank discharge", "Basic seasonal campsite; age limit noted in listings"],
+      CP1: ["Power: 16A camper/RV hookups on marked pitches", "Showers/restrooms", "Laundry", "Wi-Fi", "Bookable online"],
+      CP2: ["Power: electricity listed", "Showers/restrooms", "Laundry", "Waste/chemical toilet disposal", "Wi-Fi listed by NAT", "Airport-area last-night option"],
+      CP3: ["Power: electric hook-ups at RV/camper pitches", "Showers/restrooms", "Kitchen/dining room", "Laundry", "Chemical disposal and water"],
+      CP4: ["Power: electricity listed", "Showers/restrooms", "Hot/cold water", "Laundry", "Playground", "Kitchen/cooking not consistently listed; confirm if needed"],
+      CP5: ["Power: 17 electric stations", "Showers/restrooms", "Restaurant/bar nearby", "Call ahead if CPAP hookup is essential"],
+      CP6: ["Power: electricity access", "Showers/restrooms", "Hot/cold water", "No kitchen confirmed", "Waterfall-adjacent; simple facilities"],
+      CP7: ["Power: camper/trailer electricity; 100 outlets listed", "Showers/restrooms", "Laundry", "Drinking water", "No indoor cooking/dining facilities"],
+      CP8: ["Power: electricity available", "Showers/restrooms", "Cooking facilities", "Check-in at Hotel Framtíð", "Harbor location near shops/cafés"],
+      CP9: ["Power: electricity access", "Showers/restrooms", "Cooking facilities and seating area", "Laundry", "Waste tank discharge", "Wi-Fi listed by campsite/CampEasy"],
+      CP10: ["Power: electricity hookups", "Showers/restrooms", "Cooking facilities", "Wi-Fi partial/listed", "Laundry listed by campsite directories", "Remote interior option; confirm opening if relying on it"],
+      CP11: ["Power: limited electric camper spots", "Hot showers", "Indoor common area with sink", "Laundry service", "No grey/chemical waste disposal due lake setting"],
+      CP12: ["Power: electrical outlets on lower campervan site", "Showers/restrooms", "Kitchen", "Laundry", "Waste and potable water connection", "Wi-Fi"],
+      CP13: ["Power: electrical outlets on site", "Showers/restrooms", "Laundry", "Waste tank discharge", "National park campground rules apply"],
+      CP14: ["Power: about 250 electrical connections listed", "Showers/restrooms", "Kitchen/lounge", "Laundry", "Camper toilet disposal and water refill", "Adapter may be needed"],
+      CP15: ["Power: electricity listed", "Showers/restrooms", "Cooking/dishwashing service house", "Laundry/drying access", "Water refill and waste disposal"],
+      CP16: ["Power: electricity listed", "Toilets and hot/cold water", "Camper toilet emptying", "Walkable to Hofsós pool"],
+      CP17: ["Power: electric hookups for campervans/caravans", "WC and water", "Washing machine", "Waste tank discharge", "Swimming pool and town services nearby"],
+      CP18: ["Power: electricity for campers/motorhomes", "WC", "Laundry", "Next to pool/sports center", "Grocery store nearby"],
+      CP19: ["Power: electricity listed", "Showers/restrooms", "Washer/dryer", "Coal barbecue", "Waste tank discharge", "Hot pots, pool, store, restaurant nearby"],
+      CP20: ["Power: good access to electricity", "Showers/restrooms", "Kitchen with hob/microwave/toaster", "Laundry", "Waste tank discharge", "Sheltered camper/caravan area"],
+      CP21: ["Power: link boxes/3-pin links listed", "Accessible shower/WC", "Hot/cold sink", "Drying box", "Benches and garbage bins", "BBQ/play area nearby"],
+      CP22: ["Power: electricity listed", "Showers/restrooms", "Kitchen", "Laundry"],
+      CP23: ["Power: electricity hookups", "Toilets/showers", "24-hour kitchen", "Outdoor barbecue", "Washer/dryer", "Sewage disposal and Wi-Fi listed"],
+      CP24: ["Power: electricity listed", "Toilets/showers", "Cooking facilities", "Washer/dryer", "Waste disposal", "Wi-Fi listed"],
+      CP25: ["Power: electricity access", "WC and showers in facility hut", "Dishwashing facilities", "Hotel restaurant/minimarket/fuel nearby", "Open roughly mid-June to Sept 10"],
+      CP26: ["Power: electricity boards", "Outdoor hot showers", "Laundry", "Wi-Fi hotspot", "Waste/toilet emptying", "Payment at golf clubhouse"],
+      CP27: ["Power: electricity hookups", "Toilets and dishwashing/water areas", "Showers via nearby pool", "Playground/sports grounds nearby"],
+      CP28: ["Power: electricity", "Toilets/showers", "Cooking facilities", "Waste tank emptying", "Hellissandur also has kitchen/service house option"],
+      CP29: ["Power: electricity", "Toilets", "Paid showers", "Parka booking", "No kitchen confirmed"],
+      CP30: ["Power: electricity", "Showers/restrooms", "Barbecue and dining tables", "Laundry", "No online/email booking"],
+      CP31: ["Power: about 70 electric-hookup spots", "Restrooms/showers", "Basic cooking facilities", "Laundry", "Pool/shop/restaurant nearby"],
+      CP32: ["Power: campervan/motorhome electric hook-ups", "Hot showers", "Indoor kitchen/dining", "Wi-Fi", "Black-water emptying and drinking-water refill", "No reservations required"],
+      CP33: ["Power: electricity listed", "Showers/restrooms", "Cooking facilities", "Laundry", "Waste disposal", "Pool/hot tubs nearby"],
+      CP34: ["Power: electrical outlets listed", "Hot showers/restrooms", "Kitchen and indoor dining", "Laundry", "Open year-round", "Coastal wind exposure"],
+      CP35: ["Power: electricity listed; choose an electric area", "Showers/restrooms", "Laundry", "Waste tank discharge", "Parka reservations/payment", "Adapter available"],
+      CP36: ["Power: electricity listed", "Showers/restrooms", "Mobile-home waste disposal", "Town services nearby"],
+      CP37: ["Power: electricity listed", "Basic service house with shower/toilet", "Clothes-drying area", "Picnic tables", "Remote: verify same day"],
+      CP38: ["Power: electricity available for campers", "Bathing facilities nearby", "Small shop/cafe and fuel in village", "Remote: verify same day"],
+      CP40: ["Power: electricity listed", "Showers/restrooms listed", "Town services nearby", "Good first-night CPAP backup", "Confirm late arrival/payment"]
+    };
+    const tripTools = [
+      { name: "EasyPark", category: "Parking", url: "https://www.easypark.com/en-is", note: "Parking app/site for Iceland stops that use EasyPark." },
+      { name: "Parka", category: "Parking", url: "https://parka.app/", note: "Parking, campsites, and some destination payments." },
+      { name: "Gasvaktin", category: "Fuel", url: "https://gasvaktin.is/", note: "Fuel price and station reference." },
+      { name: "map.is", category: "Maps", url: "https://www.map.is/base/", note: "Iceland map reference for places, roads, and terrain context." },
+      { name: "SafeTravel Conditions", category: "Safety", url: "https://safetravel.is/travel-conditions/", note: "Travel alerts and conditions before remote roads or exposed drives." },
+      { name: "Umferdin Weather Stations", category: "Roads", url: "https://umferdin.is/en/weather-stations/64", note: "Road weather station view for wind, temperature, and road context." },
+      { name: "Vedur Precipitation Forecast", category: "Weather", url: "https://vedur.is/vedur/spar/thattaspar/#teg=urkoma", note: "Precipitation forecast map for routing around weather windows." }
+    ];
+    const bookingStatusLabels = {
+      needed: "Booking needed",
+      recommended: "Reserve recommended",
+      booked: "Booked",
+      check: "Call/check ahead"
+    };
+    const bookingRequirements = {
+      F: { status: "needed", requirement: "Book ahead", target: "June 14 lunch", note: "Friðheimar lunch should be booked early if chosen." },
+      G: { status: "recommended", requirement: "Reserve recommended", target: "June 14 dinner", note: "Mika has online table reservations and works as an anniversary backup." },
+      H: { status: "recommended", requirement: "Reserve recommended", target: "June 14 dinner", note: "Reserve if Tryggvaskáli becomes the anniversary dinner." },
+      L: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 15", note: "Power listed; reserve or confirm a powered pitch for CPAP." },
+      M: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 16", note: "Powered spots may be first-come; arrive early or call." },
+      P: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 17", note: "Powered mobile-home spots listed; good reset night." },
+      R: { status: "recommended", requirement: "Book/reserve powered pitch", target: "June 18/19", note: "Online booking is important in high season; paid electricity listed." },
+      AE: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 25/26", note: "Confirm exact campground and powered pitch if using as final buffer." },
+      LOG1: { status: "booked", requirement: "Confirmed 4x4 camper booking", target: "June 13-26", bookedFor: "Pickup June 13 12:00; drop-off June 26 11:30", confirmation: "Order 8PAM4V", note: "Cozy Campers BUDGET - The Highlander I, group size 2, 13 rental days, free Flybus option from KEF. Verify permitted F-roads and insurance exclusions before any highland route." },
+      HOT1: { status: "needed", requirement: "Book final-night hotel and airport transfer", target: "June 26-27", note: "Camper is returned before the final night. Choose KEF-area simplicity or Reykjavík/Kópavogur with reliable Saturday airport transport." },
+      SK2: { status: "needed", requirement: "Book ahead", target: "June 22/23 flex", note: "Drangey is a small boat tour and half-day commitment." },
+      CP1: { status: "recommended", requirement: "Book/reserve powered pitch", target: "June 13", note: "Good first-night CPAP option after camper pickup." },
+      CP2: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 13", note: "Airport-area first-night fallback; confirm powered pitch." },
+      CP3: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 14", note: "Useful anniversary-night base." },
+      CP4: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 14", note: "Electricity listed; confirm kitchen/cooking if needed." },
+      CP5: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 14", note: "Only 17 electric stations listed; call if CPAP-critical." },
+      CP6: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 15", note: "Simple South Coast backup with electricity access listed." },
+      CP7: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 16", note: "Electricity available; national park timing/capacity can matter." },
+      CP8: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 18", note: "Electricity listed; check-in through Hotel Framtíð." },
+      CP9: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 18", note: "Electricity/cooking/laundry listed." },
+      CP10: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 19", note: "Remote; confirm opening and electrical availability." },
+      CP11: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 20-21", note: "Limited electric camper spots; do not rely on it without confirmation." },
+      CP12: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 20-21", note: "Lower campervan site has electrical outlets." },
+      CP13: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 20-21", note: "Confirm national park rules and powered spot." },
+      CP14: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 22", note: "Many electrical connections; strong CPAP reset night." },
+      CP15: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 22", note: "Shorter Tröllaskagi pacing option." },
+      CP16: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 22", note: "Good if continuing past Siglufjörður." },
+      CP17: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 23", note: "Decision-point night before Westfjords/Snæfellsnes." },
+      CP18: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 23", note: "Conservative Westfjords entry option." },
+      CP19: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 23", note: "Good hot-pot pairing; verify opening/services." },
+      CP20: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 24", note: "Main Ísafjörður-area base." },
+      CP21: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 24", note: "Verify exact hookup style." },
+      CP22: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 24/25", note: "Electricity/kitchen/showers/laundry listed." },
+      CP23: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 25", note: "South Westfjords option with electricity and kitchen listed." },
+      CP24: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 25", note: "Town-service base with electricity/cooking/laundry listed." },
+      CP25: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 25/26", note: "Useful ferry-route option with electricity listed." },
+      CP26: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 23/24", note: "Good Baldur ferry logistics base." },
+      CP27: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 24", note: "Kirkjufell base; electricity listed." },
+      CP28: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 24/25", note: "Choose exact campground based on route." },
+      CP29: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 25", note: "Parka booking noted; confirm powered setup." },
+      CP30: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 25", note: "Late-trip southwest fallback before the June 26 camper return." },
+      CP31: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 25/26", note: "Good Húsafell/Canyon Baths/Krauma base." },
+      CP32: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 19-21", note: "Best Mývatn CPAP target; electric hookups advertised." },
+      CP33: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 19-21", note: "Practical Mývatn/Húsavík fallback." },
+      CP34: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 20-21", note: "Quiet coastal solstice option; check wind." },
+      CP35: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 21-22", note: "Choose electric section; Parka/reservation/payment noted." },
+      CP36: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 22/23", note: "Good Skagafjörður town-service option." },
+      CP37: { status: "check", requirement: "Call/check ahead", target: "Arctic Coast flex", note: "Remote; confirm same day before a CPAP night." },
+      CP38: { status: "check", requirement: "Call/check ahead", target: "Arctic Coast flex", note: "Remote; confirm same day before a CPAP night." },
+      CP39: { status: "check", requirement: "Call/check ahead", target: "June 13", note: "Free/donation first-night candidate after Blue Lagoon; verify campervan access and electricity if CPAP power is needed." },
+      CP40: { status: "check", requirement: "Call/check powered pitch", target: "June 13", note: "First-night CPAP backup near Gata; electricity is listed, but confirm powered spot and late-arrival/payment details before relying on it." },
+      HS1: { status: "booked", requirement: "Timed entry booked", target: "June 13", bookedFor: "18:00", note: "Arrival-day soak after camper pickup, food shopping, and an early meal. Check Reykjanes volcanic/seismic status before going." },
+      HS2: { status: "needed", requirement: "Book ahead", target: "June 13 or 26", note: "Sky Lagoon uses timed entry; book preferred slot." },
+      HS3: { status: "recommended", requirement: "Reserve recommended", target: "June 14", note: "Fontana recommends advance booking; bakery tour is separate." },
+      HS4: { status: "recommended", requirement: "Reserve recommended", target: "June 14", note: "Secret Lagoon reservations are highly recommended." },
+      HS9: { status: "recommended", requirement: "Reserve recommended", target: "June 18/19", note: "Book if timing matters." },
+      HS10: { status: "recommended", requirement: "Reserve recommended", target: "June 20-21", note: "Strong Mývatn solstice soak." },
+      HS11: { status: "recommended", requirement: "Reserve recommended", target: "June 20-21", note: "Strong Húsavík solstice-evening candidate." },
+      HS12: { status: "recommended", requirement: "Reserve recommended", target: "June 22", note: "Book desired Akureyri reset slot." },
+      HS17: { status: "recommended", requirement: "Reserve recommended", target: "June 25/26", note: "Book if West/Borgarfjörður route fits." },
+      HS18: { status: "needed", requirement: "Book ahead", target: "June 26", note: "Hvammsvík is capacity-controlled." },
+      HS19: { status: "needed", requirement: "Book ahead", target: "June 25/26", note: "Guided small-group tour; no independent access." },
+      HS21: { status: "needed", requirement: "Book parking", target: "Highland flex", note: "Landmannalaugar vehicle reservation required 9:00-16:00 in season." },
+      U: { status: "needed", requirement: "Book whale watching", target: "June 20-21", note: "Book once solstice base is chosen; weather can cancel." },
+      O: { status: "needed", requirement: "Book boat if doing one", target: "June 17", note: "Shore visit is walk-up; boat tours should be reserved." },
+      LK3: { status: "recommended", requirement: "Reserve boat if doing one", target: "June 17", note: "Fjallsárlón boat operator recommends booking in June-August." },
+      LK4: { status: "needed", requirement: "Book boat if doing one", target: "June 17", note: "Jökulsárlón Zodiac/kayak capacity is limited." },
+      AB: { status: "needed", requirement: "Book ferry if taking camper", target: "Westfjords branch", note: "Baldur vehicle spaces are limited." },
+      AH: { status: "needed", requirement: "Book parking", target: "Highland flex", note: "Landmannalaugar reservation applies for 9:00-16:00 arrivals." },
+      V7: { status: "needed", requirement: "Book ahead if guided", target: "Highland stretch", note: "Askja is serious highland driving; guided option may be safer." },
+      V11: { status: "needed", requirement: "Book ferry if taking camper", target: "South Coast branch", note: "Herjólfur vehicle space should be reserved." }
+    };
     const tripDays = Array.from({ length: 15 }, (_, index) => 13 + index);
     const roadDateRanges = {
       "Route 1": [[13, 26]],
@@ -1357,6 +1729,7 @@
     let dateWindow = { enabled: false, start: 13, end: 27 };
     let selectedPointId = null;
     let searchTerm = "";
+    let bookingOnly = false;
 
     function pointById(id) {
       return points.find((point) => point.id === id);
@@ -1383,12 +1756,14 @@
     }
 
     function pointMatchesSearch(point) {
+      const booking = bookingForPoint(point);
       return matchesSearch([
         point.id,
         point.name,
         point.day,
         point.note,
         categories[point.category].label,
+        booking ? `${booking.requirement} ${booking.target} ${booking.note} ${bookingStatusLabels[booking.status]}` : "",
         recommendationText(point.id)
       ].join(" "));
     }
@@ -1458,7 +1833,7 @@
     }
 
     function pointIsVisible(point) {
-      return active.has(point.category) && pointMatchesSearch(point) && pointMatchesDateWindow(point);
+      return active.has(point.category) && (!bookingOnly || bookingForPoint(point)) && pointMatchesSearch(point) && pointMatchesDateWindow(point);
     }
 
     function roadMatchesSearch(segment) {
@@ -1491,22 +1866,99 @@
         .replaceAll("'", "&#039;");
     }
 
+    function bookingForPoint(point) {
+      return bookingRequirements[point.id] || null;
+    }
+
+    function bookingClass(point) {
+      const booking = bookingForPoint(point);
+      return booking ? `booking-${booking.status}` : "";
+    }
+
+    function bookingBadgeHtml(point) {
+      const booking = bookingForPoint(point);
+      if (!booking) {
+        return "";
+      }
+      return `<p class="booking-badge booking-${booking.status}">${escapeHtml(bookingStatusLabels[booking.status] || "Booking")}</p>`;
+    }
+
+    function bookingDetailsHtml(point) {
+      const booking = bookingForPoint(point);
+      if (!booking) {
+        return "";
+      }
+      const bookedFor = booking.bookedFor ? `<li>Booked for: ${escapeHtml(booking.bookedFor)}</li>` : "";
+      const confirmation = booking.confirmation ? `<li>Confirmation: ${escapeHtml(booking.confirmation)}</li>` : "";
+      return `
+        <ul class="popup-amenities">
+          <li>Requirement: ${escapeHtml(booking.requirement)}</li>
+          <li>Target: ${escapeHtml(booking.target)}</li>
+          ${bookedFor}
+          ${confirmation}
+          <li>${escapeHtml(booking.note)}</li>
+        </ul>
+      `;
+    }
+
     function markerIcon(point) {
       const color = categories[point.category].color;
       const label = point.category === "hotspring" ? "♨" : point.id.startsWith("LK") ? "L" : point.id.startsWith("CP") ? "C" : point.category === "waterfall" ? "W" : point.category === "volcano" ? "V" : point.id;
       return L.divIcon({
         className: "",
-        html: `<div class="marker" style="background:${color}">${label}</div>`,
+        html: `<div class="marker ${bookingClass(point)}" style="background:${color}">${label}</div>`,
         iconSize: [28, 28],
         iconAnchor: [14, 14],
         popupAnchor: [0, -16]
       });
     }
 
+    function hookupStatusForPoint(point) {
+      if (point.category !== "camp") {
+        return null;
+      }
+      return hookupStatuses[point.id] || {
+        level: "verify",
+        label: "Hookups unknown",
+        detail: "Electrical hookup has not been researched yet; call before relying on this for CPAP."
+      };
+    }
+
+    function hookupBadgeHtml(point) {
+      const status = hookupStatusForPoint(point);
+      if (!status) {
+        return "";
+      }
+      return `<p class="hookup-badge hookup-${status.level}" title="${escapeHtml(status.detail)}">${escapeHtml(status.label)}</p>`;
+    }
+
+    function amenitiesForPoint(point) {
+      if (point.category !== "camp") {
+        return [];
+      }
+      return campAmenities[point.id] || ["Power: not researched yet", "Showers: not researched yet", "Cooking/kitchen: not researched yet", "Laundry/dump/water: not researched yet"];
+    }
+
+    function amenitiesHtml(point, className) {
+      const amenities = amenitiesForPoint(point);
+      if (!amenities.length) {
+        return "";
+      }
+      return `
+        <ul class="${className}">
+          ${amenities.map((amenity) => `<li>${escapeHtml(amenity)}</li>`).join("")}
+        </ul>
+      `;
+    }
+
     function popupHtml(point) {
       return `
         <h3 class="popup-title">${point.name}</h3>
         <p class="popup-meta">${point.day} · ${categories[point.category].label}</p>
+        ${bookingBadgeHtml(point)}
+        ${bookingDetailsHtml(point)}
+        ${hookupBadgeHtml(point)}
+        ${amenitiesHtml(point, "popup-amenities")}
         <p class="popup-note">${point.note}</p>
       `;
     }
@@ -1603,6 +2055,14 @@
         CP29: "Arnarstapi",
         CP30: "Akranes",
         CP31: "Húsafell",
+        CP32: "Mývatn",
+        CP33: "Húsavík",
+        CP34: "Tjörnes",
+        CP35: "Vaglaskógur",
+        CP36: "Sauðárkrókur",
+        CP37: "Kópasker",
+        CP38: "Bakkafjörður",
+        CP40: "Þorlákshöfn",
         HS1: "Blue Lagoon (geothermal spa)",
         HS2: "Sky Lagoon",
         HS3: "Laugarvatn Fontana",
@@ -1630,6 +2090,11 @@
         WF13: "Glymur",
         WF14: "Brúarfoss",
         WF15: "Háifoss",
+        WF16: "Faxi",
+        WF17: "Þórufoss",
+        BR1: "Fjaðrárgljúfur",
+        BR2: "Dyrhólaey",
+        BR3: "Loftsalahellir",
         LK1: "Þingvallavatn",
         LK2: "Laugarvatn",
         LK3: "Fjallsárlón",
@@ -1701,7 +2166,7 @@
       `;
     }
 
-    function renderDetailShell({ title, meta, note, color, links, recommendationItems = [] }) {
+    function renderDetailShell({ title, meta, note, color, links, recommendationItems = [], hookupStatus = null }) {
       const panel = document.getElementById("detailPanel");
       panel.classList.add("open");
       panel.innerHTML = `
@@ -1712,7 +2177,9 @@
         <div class="detail-body">
           <h3>${escapeHtml(title)}</h3>
           <div class="detail-meta">${escapeHtml(meta)}</div>
+          ${hookupStatus ? `<p class="hookup-badge hookup-${hookupStatus.level}" title="${escapeHtml(hookupStatus.detail)}">${escapeHtml(hookupStatus.label)}</p>` : ""}
           <p>${escapeHtml(note)}</p>
+          ${hookupStatus ? `<p>${escapeHtml(hookupStatus.detail)}</p>` : ""}
           ${renderRecommendations(recommendationItems)}
           <div class="detail-links">${renderLinks(links)}</div>
         </div>
@@ -1767,7 +2234,8 @@
         note: point.note,
         color: categories[point.category].color,
         links: searchLinksForPoint(point),
-        recommendationItems: recommendations[point.id] || []
+        recommendationItems: recommendations[point.id] || [],
+        hookupStatus: hookupStatusForPoint(point)
       });
       enrichDetailWithWikipedia(wikiTitleForPoint(point));
     }
@@ -1942,6 +2410,11 @@
           <button class="filter-action" type="button" data-layer-action="all">All</button>
           <button class="filter-action" type="button" data-layer-action="none">None</button>
         </div>
+        <label class="filter">
+          <input type="checkbox" id="bookingOnlyToggle">
+          <span class="swatch" style="background:#b83232"></span>
+          <span>Bookings only</span>
+        </label>
       ` + Object.entries(categories).map(([key, category]) => `
         <label class="filter">
           <input type="checkbox" value="${key}" checked>
@@ -1952,6 +2425,11 @@
 
       filters.addEventListener("change", (event) => {
         if (event.target.tagName !== "INPUT") {
+          return;
+        }
+        if (event.target.id === "bookingOnlyToggle") {
+          bookingOnly = event.target.checked;
+          drawMap();
           return;
         }
         if (event.target.checked) {
@@ -1970,7 +2448,7 @@
 
         const shouldEnable = button.dataset.layerAction === "all";
         active.clear();
-        filters.querySelectorAll("input[type='checkbox']").forEach((checkbox) => {
+        filters.querySelectorAll("input[type='checkbox']:not(#bookingOnlyToggle)").forEach((checkbox) => {
           checkbox.checked = shouldEnable;
           if (shouldEnable) {
             active.add(checkbox.value);
@@ -1980,11 +2458,25 @@
       });
     }
 
+    function renderTripTools() {
+      document.getElementById("tripTools").innerHTML = tripTools.map((tool) => `
+        <article class="tool-card">
+          <span>${escapeHtml(tool.category)}</span>
+          <a href="${escapeHtml(tool.url)}" target="_blank" rel="noreferrer">${escapeHtml(tool.name)}</a>
+          <p>${escapeHtml(tool.note)}</p>
+        </article>
+      `).join("");
+    }
+
     function renderLegend() {
       const legend = document.getElementById("legend");
-      legend.innerHTML = Object.values(categories).map((category) => `
+      const categoryLegend = Object.values(categories).map((category) => `
         <span><i class="dot" style="background:${category.color}"></i>${category.label}</span>
       `).join("");
+      legend.innerHTML = `${categoryLegend}
+        <span><i class="legend-marker"></i>Booking needed</span>
+        <span><i class="legend-marker booked"></i>Booked</span>
+      `;
     }
 
     function renderDateControls() {
@@ -2068,10 +2560,12 @@
           <span class="item-title">
             <span class="badge" style="background:${categories[point.category].color}">${point.id}</span>
             <span class="item-name">${point.name}</span>
+            ${bookingForPoint(point) ? `<span class="badge booking-${bookingForPoint(point).status}" title="${escapeHtml(bookingForPoint(point).note)}">${escapeHtml(bookingStatusLabels[bookingForPoint(point).status] || "Booking")}</span>` : ""}
+            ${hookupStatusForPoint(point) ? `<span class="badge hookup-${hookupStatusForPoint(point).level}" title="${escapeHtml(hookupStatusForPoint(point).detail)}">${escapeHtml(hookupStatusForPoint(point).label.replace("Hookups ", ""))}</span>` : ""}
             ${recommendations[point.id] ? `<span class="badge" title="Has recommendations or notes" style="background:#394545">note</span>` : ""}
             <button class="info-button" type="button" aria-label="More details about ${escapeHtml(point.name)}" data-info-id="${point.id}">?</button>
           </span>
-          <span class="item-meta">${point.day} · ${point.note}</span>
+          <span class="item-meta">${point.day} · ${bookingForPoint(point) ? `${bookingForPoint(point).requirement}: ${bookingForPoint(point).target}. ` : ""}${hookupStatusForPoint(point) ? `${hookupStatusForPoint(point).detail} ` : ""}${point.note}</span>
           ${quickLinksForPoint(point)}
         </div>
       `);
@@ -2152,38 +2646,46 @@
       setDateWindowFromInputs("end");
     });
 
-    document.getElementById("layerToggle").addEventListener("click", (event) => {
-      const toggle = event.currentTarget;
-      const popover = document.getElementById("layersPopover");
+    function closePopover(toggleId, popoverId) {
+      const toggle = document.getElementById(toggleId);
+      const popover = document.getElementById(popoverId);
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-label", `Expand ${toggle.textContent.toLowerCase()}`);
+      popover.hidden = true;
+    }
+
+    function togglePopover(toggleId, popoverId, otherToggleId, otherPopoverId) {
+      const toggle = document.getElementById(toggleId);
+      const popover = document.getElementById(popoverId);
       const isExpanded = toggle.getAttribute("aria-expanded") === "true";
+      closePopover(otherToggleId, otherPopoverId);
       toggle.setAttribute("aria-expanded", String(!isExpanded));
-      toggle.setAttribute("aria-label", isExpanded ? "Expand map layers" : "Collapse map layers");
+      toggle.setAttribute("aria-label", `${isExpanded ? "Expand" : "Collapse"} ${toggle.textContent.toLowerCase()}`);
       popover.hidden = isExpanded;
+    }
+
+    document.getElementById("layerToggle").addEventListener("click", (event) => {
+      togglePopover(event.currentTarget.id, "layersPopover", "toolsToggle", "toolsPopover");
+    });
+
+    document.getElementById("toolsToggle").addEventListener("click", (event) => {
+      togglePopover(event.currentTarget.id, "toolsPopover", "layerToggle", "layersPopover");
     });
 
     document.addEventListener("click", (event) => {
-      const toggle = document.getElementById("layerToggle");
-      const popover = document.getElementById("layersPopover");
-      if (popover.hidden || event.target.closest("#layerToggle") || event.target.closest("#layersPopover")) {
+      if (event.target.closest(".popover-controls")) {
         return;
       }
-      toggle.setAttribute("aria-expanded", "false");
-      toggle.setAttribute("aria-label", "Expand map layers");
-      popover.hidden = true;
+      closePopover("layerToggle", "layersPopover");
+      closePopover("toolsToggle", "toolsPopover");
     });
 
     document.addEventListener("keydown", (event) => {
       if (event.key !== "Escape") {
         return;
       }
-      const toggle = document.getElementById("layerToggle");
-      const popover = document.getElementById("layersPopover");
-      if (popover.hidden) {
-        return;
-      }
-      toggle.setAttribute("aria-expanded", "false");
-      toggle.setAttribute("aria-label", "Expand map layers");
-      popover.hidden = true;
+      closePopover("layerToggle", "layersPopover");
+      closePopover("toolsToggle", "toolsPopover");
     });
 
     document.getElementById("pointList").addEventListener("keydown", (event) => {
@@ -2230,6 +2732,7 @@
     });
 
     renderFilters();
+    renderTripTools();
     renderDateControls();
     renderLegend();
     drawMap();
