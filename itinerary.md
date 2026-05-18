@@ -311,6 +311,7 @@ Route options:
 - Egilsstaðir
 - Lagarfljót lake area
 - Hengifoss/Litlanesfoss, if based near Egilsstaðir and hiking weather is good
+- Stuðlagil canyon, if the route is based near Egilsstaðir and there is enough time for the Jökuldalur detour
 
 Campground targets:
 - Seyðisfjörður
@@ -319,11 +320,13 @@ Campground targets:
 
 Notes:
 - Follow the weather. This is a good section to keep loose.
+- Stuðlagil can be beautiful, but access choice, gravel-road time, walking, crowds, and river color/conditions can make it a slower detour than expected.
 
 ### June 19: East Iceland to Mývatn
 
 Route:
 - Egilsstaðir area
+- Optional Stuðlagil canyon detour in Jökuldalur, if skipped June 18 and the day has enough margin
 - Dettifoss/Selfoss, if route and timing work
 - Mývatn area
 
@@ -411,6 +414,7 @@ Campground targets:
 Optional Skagafjörður / Hofsós-area stops:
 - Hólar in Hjaltadalur: beautiful historic church and old episcopal site inland from Hofsós.
 - Drangey Island boat tour from Sauðárkrókur: puffins, seabirds, saga history, and a roughly half-day commitment if the schedule lines up.
+- Fosslaug: rustic natural hot spring near Reykjafoss and Varmahlíð; good if the day wants a short soak/waterfall pairing, but expect no facilities, a short walk, possible mud, and changing access/etiquette.
 - Grettislaug: seaside hot pots near Reykir/Reykjaströnd; check road/weather comfort before committing to the gravel detour.
 
 Optional waterfall branch:
@@ -429,6 +433,7 @@ Westfjords route:
 
 Snæfellsnes/West route:
 - Hvammstangi
+- Optional Vatnsnes detour to Hvítserkur sea stack if weather, road comfort, and the day's branch decision leave enough room
 - Borgarnes
 - Stykkishólmur or Grundarfjörður area
 
@@ -438,6 +443,7 @@ Campground targets:
 
 Notes:
 - Because June 21 is now protected as a solstice stay-put day, the Westfjords branch may need to be shorter or more selective.
+- Hvítserkur is a worthwhile northwest photo/nature stop, but it is a detour around Vatnsnes rather than a required transit stop. Check gravel-road comfort, wind, visibility, tide/shore conditions, and time pressure before committing.
 
 ### June 24: Westfjords or Snæfellsnes
 
