@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Iceland Travel Log</title>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin="">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23126d61'/%3E%3Cpath d='M12 43h40L39 21l-8 13-5-8z' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Travel log days">
+      <div class="brand-block">
+        <a class="back-link" href="../maps/itinerary-map.html">Planning map</a>
+        <h1>Iceland Travel Log</h1>
+        <p>Daily notes, places, photos, and videos from the June camper trip.</p>
+      </div>
+
+      <div class="controls" aria-label="Travel log filters">
+        <label class="search-field">
+          <span>Search</span>
+          <input id="searchInput" type="search" autocomplete="off" placeholder="Day, place, note, media">
+        </label>
+        <div class="filter-row" id="tagFilters" aria-label="Activity filters"></div>
+      </div>
+
+      <nav class="day-list" id="dayList" aria-label="Days"></nav>
+    </aside>
+
+    <main class="day-view">
+      <section class="hero" id="hero">
+        <img id="heroImage" src="assets/iceland-placeholder.png" alt="">
+        <div class="hero-overlay">
+          <p class="kicker" id="dayKicker">June 13-27</p>
+          <h2 id="dayTitle">Iceland by Camper</h2>
+          <p id="daySummary">Select a day to see the log entry, places, route notes, and media.</p>
+          <div class="day-actions">
+            <a class="action-link" id="frameLink" href="index.html?view=day">Day frame</a>
+            <a class="action-link frame-only" id="fullLogLink" href="index.html">Full log</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-grid">
+        <article class="journal-panel">
+          <div class="section-heading">
+            <h3>Daily Summary</h3>
+            <span id="dayMeta"></span>
+          </div>
+          <p id="journalText"></p>
+          <div class="note-grid" id="noteGrid"></div>
+        </article>
+
+        <section class="map-panel" aria-label="Day map">
+          <div id="dayMap"></div>
+        </section>
+
+        <section class="places-panel">
+          <div class="section-heading">
+            <h3>Places</h3>
+            <span id="placeCount"></span>
+          </div>
+          <div class="place-list" id="placeList"></div>
+        </section>
+
+        <section class="media-panel">
+          <div class="section-heading">
+            <h3>Photos & Videos</h3>
+            <span id="mediaCount"></span>
+          </div>
+          <div class="media-grid" id="mediaGrid"></div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <template id="emptyStateTemplate">
+    <div class="empty-state">
+      <strong>No entries match.</strong>
+      <span>Clear the search or filters to bring the full trip back.</span>
+    </div>
+  </template>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+  <script src="data/days.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

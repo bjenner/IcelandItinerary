@@ -14,6 +14,14 @@ Planning notes, route ideas, and an interactive map for a flexible camper trip a
 - [Itinerary draft](itinerary.md)
 - [Interactive itinerary map](maps/itinerary-map.html)
 - [Vehicle rental notes](notes/vehicle-rental.md)
+- [Travel log site](travel-log/index.html)
+
+## Sites
+
+This repo keeps both halves of the trip together:
+
+- **Planning site:** `maps/itinerary-map.html` for the flexible route, options, and trip decisions.
+- **Travel log site:** `travel-log/index.html` for the actual daily record, places visited, photos, and videos.
 
 ## Map Layers
 

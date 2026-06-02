@@ -1,7 +1,7 @@
 # Iceland Camper Itinerary
 
 Trip dates: June 13-27
-Vehicle/accommodation: Cozy Campers BUDGET - The Highlander I 4x4 camper booked June 13-26; final night hotel needed June 26
+Vehicle/accommodation: Cozy Campers BUDGET - The Highlander I 4x4 camper booked June 13-26; final night at Center Hotels Plaza in Reykjavík
 Plan style: flexible campground-based route, with some F-road/highland options possible only when roads, weather, Cozy Campers rental terms, and driver comfort all line up.
 
 ## Current Planning Assumptions
@@ -9,7 +9,7 @@ Plan style: flexible campground-based route, with some F-road/highland options p
 - Arrive in Iceland on Saturday, June 13.
 - Leave Iceland on Saturday, June 27.
 - Stay in organized campgrounds while the camper is active.
-- Hotel needed for the final night after camper drop-off on Friday, June 26.
+- Final night booked at Center Hotels Plaza in Reykjavík after camper drop-off on Friday, June 26.
 - Treat the camper as both accommodation and transportation through Friday morning, June 26.
 - Treat the Highlander I as a 4x4 camper, so some F-roads may be possible if Cozy Campers permits the specific road and live conditions are good.
 - Favor flexibility over fixed reservations unless a specific campground or activity requires booking.
@@ -59,7 +59,7 @@ Plan style: flexible campground-based route, with some F-road/highland options p
 Planning implications:
 - The camper is no longer available for the night of June 26.
 - June 26 should be treated as a return/logistics day first, not a remote-road or highland day.
-- Book a final-night hotel with easy transport to KEF for the Saturday, June 27 flight.
+- Final-night hotel is booked at Center Hotels Plaza in Reykjavík; confirm Saturday transport timing to KEF.
 - Confirm the Highlander I rental terms for the specific F-roads under consideration, gravel-road restrictions, river crossings, insurance exclusions, and any required cleaning/fuel return rules.
 
 ## Key Dates
@@ -189,6 +189,7 @@ Northern campground hookup callouts:
 Current recommendations:
 - Carla recommended Lake Mývatn as a place to keep on the itinerary radar.
 - Carla recommended Vestmannaeyjar / Westman Islands / Heimaey as a place to consider if ferry timing and trip pace make the branch feel easy.
+- Jordan & Soph's Iceland Ring Road video/writeup flagged Foss / Hallandsnes near Akureyri as the unnamed-feeling hot waterfall across the fjord from town; keep it as an optional June 22 Akureyri-area stop, not a confirmed route requirement.
 
 ## Itinerary Draft
 
@@ -411,6 +412,11 @@ Campground targets:
 - Hofsós, for a northwest/electric-hookup option near the pool.
 - Sauðárkrókur or Varmahlíð, if continuing into Skagafjörður.
 
+Optional Akureyri-area stops:
+- Foss / Hallandsnes hot waterfall: Jordan & Soph match for the unnamed "Foss" hot spring near Akureyri, across Eyjafjörður from town. Access clue: look for Hallandsnes / Halllandsnes road on the east side of the fjord, then confirm the exact Google Maps pin before leaving pavement or committing to a gravel track. It is a rustic warm-water waterfall/pool created after tunnel work; expect no facilities, small pools, possibly lukewarm water, and rough/slippery access.
+- Forest Lagoon: polished geothermal reset near Akureyri if comfort, showers, and reliability beat rustic exploring.
+- Akureyri town/pool/food: useful reset if the camper rhythm needs laundry, groceries, or a lower-effort afternoon.
+
 Optional Skagafjörður / Hofsós-area stops:
 - Hólar in Hjaltadalur: beautiful historic church and old episcopal site inland from Hofsós.
 - Drangey Island boat tour from Sauðárkrókur: puffins, seabirds, saga history, and a roughly half-day commitment if the schedule lines up.
@@ -530,7 +536,7 @@ Notes:
 - If the Westfjords branch was chosen, prioritize a relaxed, reliable return toward the southwest.
 - If the Snæfellsnes/easier branch was chosen and conditions are excellent, this may still become a small highland or Borgarfjörður bonus day.
 - Do not use this day for an ambitious highland route. The camper must be returned to Cozy Campers by 11:30.
-- After drop-off, transition to the final-night hotel and airport-transfer plan.
+- After drop-off, transition to Center Hotels Plaza in Reykjavík and the airport-transfer plan.
 
 Possible final-flex options:
 - Reykjanes Peninsula
@@ -546,8 +552,8 @@ Possible final-flex options:
 
 Confirmed logistics:
 - Return the Cozy Campers BUDGET - The Highlander I by 11:30 on Friday, June 26.
-- Hotel needed for the night of June 26.
-- Choose hotel based on Saturday flight time and transport plan: KEF airport hotel for maximum simplicity, or Reykjavík/Kópavogur hotel only if airport transfer timing is easy.
+- Final night booked at Center Hotels Plaza in downtown Reykjavík.
+- Confirm Saturday morning transport from Center Hotels Plaza to KEF based on flight time.
 
 ### June 27: Hotel Checkout and Fly Out
 
@@ -559,7 +565,7 @@ Goals:
 ## Open Questions / To Decide Later
 
 - Cozy Campers BUDGET - The Highlander I permitted F-road list, restrictions, and insurance exclusions.
-- Final-night hotel for June 26 and airport transport for June 27.
+- Airport transport from Center Hotels Plaza to KEF for June 27.
 - Whether river crossings are within comfort level.
 - Whether to buy the Camping Card.
 - Whether to prioritize Westfjords or highlands if time/weather makes both unrealistic.

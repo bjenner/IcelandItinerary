@@ -1152,7 +1152,7 @@
 
     const points = [
       { id: "A", name: "Keflavík Airport", category: "core", day: "June 13 / June 27", lat: 63.9850, lng: -22.6056, note: "Arrival airport and final departure area. June 13 uses the free Flybus option from KEF toward Cozy Campers before Blue Lagoon. June 27 needs hotel-to-airport transport after the camper has been returned." },
-      { id: "B", name: "Reykjavík", category: "core", day: "June 13 / June 26", lat: 64.1466, lng: -21.9426, note: "Easy first-day supplies, pools, food, and backup weather day. Final night can be here only if airport transport is simple for June 27." },
+      { id: "B", name: "Reykjavík", category: "core", day: "June 13 / June 26", lat: 64.1466, lng: -21.9426, note: "Easy first-day supplies, pools, food, and backup weather day. Final night is booked downtown at Center Hotels Plaza; confirm airport transport to KEF for June 27." },
       { id: "C", name: "Þingvellir", category: "core", day: "June 14", lat: 64.2559, lng: -21.1295, note: "Golden Circle start for the anniversary day." },
       { id: "D", name: "Geysir", category: "core", day: "June 14", lat: 64.3137, lng: -20.3000, note: "Classic Golden Circle stop; keep timing gentle." },
       { id: "E", name: "Gullfoss", category: "waterfall", day: "June 14", lat: 64.3271, lng: -20.1199, note: "Golden Circle waterfall and anniversary-day highlight before meal plans." },
@@ -1187,7 +1187,7 @@
       { id: "AH", name: "Landmannalaugar", category: "highland", day: "Only if open/suitable", lat: 63.9910, lng: -19.0607, note: "Potential 4x4 highlight, but late-June access, route choice, river crossings, and the actual rental company's permission matter." },
       { id: "AI", name: "Road / weather checks", category: "safety", day: "Every evening", lat: 64.9631, lng: -19.0208, note: "Use umferdin.is, Safetravel, and Vedur before remote roads, highlands, or exposed drives." },
       { id: "LOG1", name: "Cozy Campers pickup / drop-off", category: "logistics", day: "June 13 / June 26", lat: 64.1055, lng: -21.9095, note: "Order 8PAM4V: Cozy Campers BUDGET - The Highlander I. Pickup Saturday June 13 at 12:00 with free Flybus option from KEF. Drop off Friday June 26 at 11:30. Group size 2, 13 rental days. Confirm permitted F-roads, live road status requirements, river crossing rules, and insurance exclusions." },
-      { id: "HOT1", name: "Final-night hotel / KEF transfer", category: "lodging", day: "June 26-27", lat: 63.9982, lng: -22.5560, note: "Hotel needed after Cozy Campers drop-off on Friday June 26, with reliable transport to KEF before the Saturday June 27 flight. Airport-area hotel is simplest; Reykjavík/Kópavogur works only if transfer timing is easy." },
+      { id: "HOT1", name: "Center Hotels Plaza", category: "lodging", day: "June 26-27", lat: 64.1479, lng: -21.9420, note: "Booked final-night hotel in downtown Reykjavík after Cozy Campers drop-off on Friday June 26. Address: Aðalstræti 4-6, 101 Reykjavík. Confirm Saturday morning transport timing to KEF." },
       { id: "SK1", name: "Hólar in Hjaltadalur", category: "branch", day: "June 22/23 flex", lat: 65.7320, lng: -19.1111, note: "Beautiful historic site inland from Hofsós with Hólar Cathedral, old church history, mountain valley scenery, and a calm campground-area feel." },
       { id: "SK2", name: "Drangey Island boat tour", category: "branch", day: "June 22/23 flex", lat: 65.7485, lng: -19.6484, note: "Boat tour from Sauðárkrókur marina to the sheer island in Skagafjörður: puffins, seabirds, saga stories, and hiking. Treat as a half-day/activity-booking decision." },
       { id: "CP1", name: "Reykjavík Campsite", category: "camp", day: "June 13", lat: 64.1460, lng: -21.8750, note: "Practical first-night campground near Laugardalur services if the arrival day drifts toward Reykjavík errands; verify current booking/check-in details." },
@@ -1252,7 +1252,8 @@
       { id: "HS20", name: "Hveravellir Hot Pool", category: "hotspring", day: "Highland option", lat: 64.8665, lng: -19.5579, note: "Highland hot pool on F35/Kjölur. Only if F35 is open and the camper rental terms allow it." },
       { id: "HS21", name: "Landmannalaugar Hot Spring", category: "hotspring", day: "Highland option", lat: 63.9910, lng: -19.0607, note: "Classic highland hot spring. Only if roads are open, weather is stable, and access is permitted." },
       { id: "HS22", name: "Kvika Foot Bath", category: "hotspring", day: "June 13 or 26", lat: 64.1624, lng: -22.0083, note: "Tiny geothermal foot bath by the Seltjarnarnes coast near Grótta. Good low-key first/last-day sunset walk option; not a full bathing stop." },
-      { id: "HS23", name: "Fosslaug", category: "hotspring", day: "June 22/23", lat: 65.4942, lng: -19.3837, note: "Rustic natural hot spring near Reykjafoss and Varmahlíð in Skagafjörður. Good short soak/waterfall pairing if the route is passing Varmahlíð or Sauðárkrókur; expect no changing rooms or restrooms, a short walk that may be muddy, limited space, and natural-hot-spring etiquette." },
+      { id: "HS23", name: "Fosslaug", category: "hotspring", day: "June 22/23", lat: 65.4942, lng: -19.3837, note: "Rustic natural hot spring near Reykjafoss and Varmahlíð in Skagafjörður. Good short soak/waterfall pairing if passing Varmahlíð or Sauðárkrókur; expect no changing rooms or restrooms, a short walk that may be muddy, limited space, and natural-hot-spring etiquette." },
+      { id: "HS24", name: "Foss / Hallandsnes hot waterfall", category: "hotspring", day: "June 22", lat: 65.7060, lng: -18.0180, note: "Approximate planning pin for the unnamed-feeling Foss hot waterfall near Akureyri, across Eyjafjörður at Hallandsnes. Access clue: Hallandsnes / Halllandsnes road on the east side of the fjord; confirm the exact Google Maps pin before leaving pavement or committing to a gravel track. Jordan & Soph match. Warm water was redirected after Vaðlaheiðargöng tunnel work; expect no facilities, small/rough pools, slippery access, and water that may be lukewarm rather than hot." },
       { id: "WF1", name: "Gljúfrabúi", category: "waterfall", day: "June 15", lat: 63.6210, lng: -19.9860, note: "Hidden waterfall beside Seljalandsfoss; expect wet footing and crowds at the narrow canyon entrance." },
       { id: "WF2", name: "Kvernufoss", category: "waterfall", day: "June 15", lat: 63.5275, lng: -19.4808, note: "Quiet-feeling waterfall near Skógar with a short walk; good companion stop to Skógafoss." },
       { id: "WF3", name: "Svartifoss", category: "waterfall", day: "June 16", lat: 64.0275, lng: -16.9753, note: "Basalt-column waterfall reached by a Skaftafell hike; weather and energy decide whether it fits." },
@@ -1329,6 +1330,9 @@
       ],
       HS23: [
         { by: "Trip planning", note: "Good Varmahlíð/Reykjafoss-area natural soak if the June 22/23 transition has room for a rustic stop." }
+      ],
+      HS24: [
+        { by: "Jordan & Soph", note: "Their Iceland Ring Road video/writeup appears to match the unnamed Foss hot waterfall near Akureyri/Hallandsnes; treat as a recommendation, not a fixed itinerary item." }
       ],
       SK1: [
         { by: "Trip planning", note: "Added as a beautiful history-and-landscape option near Hofsós rather than a fixed itinerary commitment." }
@@ -1655,7 +1659,7 @@
       R: { status: "recommended", requirement: "Book/reserve powered pitch", target: "June 18/19", note: "Online booking is important in high season; paid electricity listed." },
       AE: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 25/26", note: "Confirm exact campground and powered pitch if using as final buffer." },
       LOG1: { status: "booked", requirement: "Confirmed 4x4 camper booking", target: "June 13-26", bookedFor: "Pickup June 13 12:00; drop-off June 26 11:30", confirmation: "Order 8PAM4V", note: "Cozy Campers BUDGET - The Highlander I, group size 2, 13 rental days, free Flybus option from KEF. Verify permitted F-roads and insurance exclusions before any highland route." },
-      HOT1: { status: "needed", requirement: "Book final-night hotel and airport transfer", target: "June 26-27", note: "Camper is returned before the final night. Choose KEF-area simplicity or Reykjavík/Kópavogur with reliable Saturday airport transport." },
+      HOT1: { status: "booked", requirement: "Final-night hotel booked", target: "June 26-27", bookedFor: "June 26 final night", note: "Center Hotels Plaza in downtown Reykjavík after camper drop-off. Confirm Saturday morning transport timing to KEF." },
       SK2: { status: "needed", requirement: "Book ahead", target: "June 22/23 flex", note: "Drangey is a small boat tour and half-day commitment." },
       CP1: { status: "recommended", requirement: "Book/reserve powered pitch", target: "June 13", note: "Good first-night CPAP option after camper pickup." },
       CP2: { status: "recommended", requirement: "Reserve/check powered pitch", target: "June 13", note: "Airport-area first-night fallback; confirm powered pitch." },
@@ -2082,6 +2086,7 @@
         HS21: "Landmannalaugar",
         HS22: "Kvika footbath",
         HS23: "Fosslaug",
+        HS24: "Foss Hallandsnes Akureyri",
         WF1: "Gljúfrabúi",
         WF2: "Kvernufoss",
         WF3: "Svartifoss",

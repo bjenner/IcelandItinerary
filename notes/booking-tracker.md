@@ -28,6 +28,7 @@ These are the bookings most likely to affect the shape of the trip.
 | Priority | Item | Date/window | Status | Booked for | Confirmation | Cancellation / change window | Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | Cozy Campers BUDGET - The Highlander I | June 13-26 | Booked | June 13 12:00 pickup; June 26 11:30 drop-off | Order 8PAM4V |  | Flybus option from KEF airport is free. Confirm F-road rules, insurance, river crossings, inverter/battery setup, CPAP feasibility, electrical cable/adapter. |
+| 1 | Center Hotels Plaza | June 26-27 | Booked | June 26 final night |  |  | Downtown Reykjavík final-night hotel after camper drop-off; confirm Saturday transport to KEF. |
 | 1 | CPAP-safe powered campground plan | Every night | Decision needed |  |  |  | Need powered pitch certainty or same-day confirmation for each overnight. |
 | 1 | June 14 anniversary meal | June 14 | Decision needed |  |  |  | Choose Friðheimar lunch, Mika dinner, Tryggvaskáli dinner, or combo. |
 | 2 | Blue Lagoon | June 13 | Booked | 18:00 |  |  | Arrival-day soak after camper pickup, food shopping, and an early meal; check Reykjanes volcanic/seismic status before going. |
@@ -98,7 +99,7 @@ Use this section for nights where a powered pitch is important. The goal is not 
 | June 23 | West decision point | Hvammstangi | Hólmavík, Drangsnes, Sauðárkrókur | Decision needed |  |  | Decides Westfjords vs Snæfellsnes. |
 | June 24 | Westfjords or Snæfellsnes | Tungudalur / Ísafjörður or Grundarfjörður | Súðavík, Þingeyri, Stykkishólmur | Decision needed |  |  | Branch-dependent. |
 | June 25 | South Westfjords / Snæfellsnes / Borgarfjörður | Patreksfjörður/Tálknafjörður or Arnarstapi/Hellissandur or Húsafell | Flókalundur, Grundarfjörður | Decision needed |  |  | Keep weather-flexible, but protect power. |
-| June 26 | Camper drop-off and final-night hotel | Hotel near KEF or easy airport transport | Reykjavík/Kópavogur hotel only if transfer timing is easy | Decision needed |  |  | Camper returns to Cozy Campers at 11:30, so this is not a camper night. |
+| June 26 | Camper drop-off and final-night hotel | Center Hotels Plaza, Reykjavík | Airport transport to KEF on June 27 | Booked | June 26 final night |  | Camper returns to Cozy Campers at 11:30, so this is not a camper night. Confirm Saturday airport transfer timing. |
 
 ## Lower-Priority Reserve-Recommended Campgrounds
 
