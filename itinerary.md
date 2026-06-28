@@ -36,6 +36,7 @@ Plan style: flexible campground-based route, with some F-road/highland options p
 - Weather forecast: https://en.vedur.is/
 - Icelandic Met Office volcano monitoring: https://en.vedur.is/volcanoes/
 - Main Icelandic volcanoes: https://en.vedur.is/volcanoes/about-volcanoes/
+- Iceland Drone Map: https://kort.gis.is/mapview/?app=dronar
 - Reykjanes volcanic activity updates: https://www.government.is/topics/public-safety-and-security/volcanic-activity-in-reykjanes/
 - Camping rules: https://ust.is/english/visiting-iceland/travel-information/where-can-you-camp/
 - Friðheimar: https://fridheimar.is/

@@ -44,7 +44,8 @@ function daySearchText(day) {
     day.journal,
     day.tags?.join(" "),
     day.places?.map((place) => `${place.name} ${place.type} ${place.note}`).join(" "),
-    day.media?.map((item) => `${item.title} ${item.caption} ${item.type}`).join(" ")
+    day.media?.map((item) => `${item.title} ${item.caption} ${item.type}`).join(" "),
+    day.links?.map((item) => `${item.title} ${item.note}`).join(" ")
   ].join(" ").toLowerCase();
 }
 
@@ -126,6 +127,19 @@ function renderPlaces(day) {
     : `<div class="empty-state"><strong>No places yet.</strong><span>Add places in <code>travel-log/data/days.js</code>.</span></div>`;
 }
 
+function renderLinks(day) {
+  const links = (day.links || []).filter((item) => item.title || item.href || item.note);
+  byId("linkCount").textContent = `${links.length} link${links.length === 1 ? "" : "s"}`;
+  byId("linkList").innerHTML = links.length
+    ? links.map((item) => `
+      <article class="link-card">
+        <strong>${item.href ? `<a href="${escapeHtml(item.href)}" target="_blank" rel="noreferrer">${escapeHtml(item.title || item.href)}</a>` : escapeHtml(item.title || "Untitled source")}</strong>
+        <p>${escapeHtml(item.note || "")}</p>
+      </article>
+    `).join("")
+    : `<div class="empty-state"><strong>No links yet.</strong><span>Add album, receipt, note, map, or reference links in <code>travel-log/data/days.js</code>.</span></div>`;
+}
+
 function mediaFrame(item) {
   if (item.type === "video-embed" && item.embed) {
     return `<iframe src="${escapeHtml(item.embed)}" title="${escapeHtml(item.title)}" allow="fullscreen; picture-in-picture" loading="lazy"></iframe>`;
@@ -149,7 +163,9 @@ function renderMedia(day) {
         <div class="media-caption">
           <strong>${escapeHtml(item.title || "Untitled")}</strong>
           <p>${escapeHtml(item.caption || "")}</p>
+          ${item.credit ? `<p class="media-credit">Photo: ${escapeHtml(item.credit)}</p>` : ""}
           ${item.href ? `<p><a href="${escapeHtml(item.href)}" target="_blank" rel="noreferrer">Open media</a></p>` : ""}
+          ${item.sourceHref ? `<p><a href="${escapeHtml(item.sourceHref)}" target="_blank" rel="noreferrer">Open source</a></p>` : ""}
         </div>
       </article>
     `).join("")
@@ -210,6 +226,7 @@ function renderActiveDay() {
     byId("journalText").textContent = "";
     byId("noteGrid").innerHTML = "";
     byId("placeList").innerHTML = "";
+    byId("linkList").innerHTML = "";
     byId("mediaGrid").innerHTML = "";
     markerLayer?.clearLayers();
     routeLayer?.clearLayers();
@@ -227,6 +244,7 @@ function renderActiveDay() {
 
   renderNotes(day);
   renderPlaces(day);
+  renderLinks(day);
   renderMedia(day);
   renderMap(day);
 }

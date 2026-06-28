@@ -1,6 +1,6 @@
 # Iceland Travel Log
 
-Static travel-log site for the actual trip record: daily summaries, places visited, photos, videos, and a per-day map.
+Static travel-log site for the actual trip record: daily summaries, places visited, photos, videos, links, and a per-day map.
 
 Open `travel-log/index.html` directly, or serve the repo locally if you want map tiles to behave consistently:
 
@@ -28,6 +28,13 @@ Daily entries live in `travel-log/data/days.js`. Each day supports:
 - `notes.camp`, `notes.weather`, and `notes.road` for useful trip context
 - `places` with `lat`/`lng` coordinates for the daily map
 - `media` records for photos, direct videos, hosted links, or embeds
+- `links` records for albums, receipts, map timelines, articles, notes, or source folders
+
+## Collection Inbox
+
+Use `travel-log/collection-inbox.md` as the messy intake area. Drop raw links, folder paths, day notes, receipts, and “remember this” scraps there first. Once a day has enough material, curate it into `data/days.js` so it appears in the site.
+
+Use `travel-log/media-workflow.md` for the media plan: iCloud shared albums for iPhone material, YouTube for edited 360/drone/video exports, and the travel log as the day-by-day index.
 
 ## Media Pattern
 
